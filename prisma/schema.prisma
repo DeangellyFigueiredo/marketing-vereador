@@ -1,0 +1,61 @@
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_MSSQL_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
+}
+
+model Paciente {
+  id                     String      @id @unique
+  nome                   String
+  idade                  String
+  sexo                   String
+  alergias               String?
+  condicoesPreexistentes String?
+  medicamentosEmUso      String?
+  nomeResponsavel        String?
+  telefoneResponsavel    String?
+  createdAt              DateTime    @default(now())
+  updatedAt              DateTime?
+  Historico              Historico[]
+}
+
+model Enfermeiro {
+  id        String      @id @unique
+  nome      String
+  coren     String      @unique
+  cargo     String
+  password  String
+  createdAt DateTime    @default(now())
+  Historico Historico[]
+}
+
+model Ferida {
+  id                    String      @id @unique
+  tipoFerida            String
+  grauDaFerida          String
+  presencaInfeccao      String
+  tratamentoRecomendado String
+  imagem                String
+  historico             Historico[]
+  createdAt             DateTime    @default(now())
+}
+
+model Historico {
+  id                    String     @id @unique
+  procedimentoRealizado String
+  observacoes           String
+  localizacaoFerida     String
+  feridaId              String
+  ferida                Ferida     @relation(fields: [feridaId], references: [id])
+  pacienteId            String
+  paciente              Paciente   @relation(fields: [pacienteId], references: [id])
+  enfermeiroId          String
+  enfermeiro            Enfermeiro @relation(fields: [enfermeiroId], references: [id])
+  imagem                String
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime?
+}
