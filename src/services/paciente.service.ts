@@ -31,7 +31,7 @@ export class PacienteService {
     return await this.pacienteRepository.delete(id);
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<Paciente> {
     return await this.pacienteRepository.findOne(id);
   }
   async update(id: string, payload: CreateTodoPaciente) {

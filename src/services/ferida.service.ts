@@ -26,4 +26,8 @@ export class FeridaService {
         })
     );
   }
+
+  async findById(id: string) {
+    return await this.feridaRepository.findById(id);
+  }
 }

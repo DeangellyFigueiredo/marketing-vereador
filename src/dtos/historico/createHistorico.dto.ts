@@ -17,7 +17,4 @@ export class CreateHistoricoDTO {
   @ApiProperty()
   @IsString()
   pacienteId: string;
-  @ApiProperty()
-  @IsString()
-  enfermeiroId: string;
 }

@@ -18,4 +18,8 @@ export class FeridaRepository
   async findAll(): Promise<Ferida[]> {
     return await this.repository.ferida.findMany();
   }
+
+  async findById(id: string): Promise<Ferida> {
+    return await this.repository.ferida.findUnique({ where: { id } });
+  }
 }
