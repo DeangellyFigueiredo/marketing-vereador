@@ -3,6 +3,7 @@ import { Pageable } from "src/configs/database/pageable.service";
 import { PrismaService } from "src/configs/database/prisma.service";
 import { Intervencao } from "src/entities/intervencao.entity";
 import IIntervencaoRepository from "./intervencao.repository.contract";
+import { UpdateIntervencaoDTO } from "src/dtos/intervencao/updateIntervencao.dto";
 
 @Injectable()
 export class IntervencaoRepository
@@ -31,6 +32,26 @@ export class IntervencaoRepository
           },
         },
         createdAt: new Date(),
+      },
+    });
+  }
+
+  async update(data: UpdateIntervencaoDTO, id: string): Promise<any> {
+    return await this.repository.intervencao.update({
+      where: {
+        id: id,
+      },
+      data: {
+        ...data,
+        updatedAt: new Date(),
+      },
+    });
+  }
+
+  async findById(id: string): Promise<any> {
+    return await this.repository.intervencao.findUnique({
+      where: {
+        id: id,
       },
     });
   }

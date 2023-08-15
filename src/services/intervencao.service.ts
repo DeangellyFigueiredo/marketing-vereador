@@ -5,6 +5,7 @@ import { PacienteService } from "./paciente.service";
 import { Intervencao } from "src/entities/intervencao.entity";
 import { AuthService } from "./auth.service";
 import { EnfermeiroService } from "./enfermeiro.service";
+import { UpdateIntervencaoDTO } from "src/dtos/intervencao/updateIntervencao.dto";
 
 @Injectable()
 export class IntervencaoService {
@@ -33,5 +34,12 @@ export class IntervencaoService {
         enfermeiroId: tokenDecod.sub.id,
       })
     );
+  }
+
+  async update(payload: UpdateIntervencaoDTO, id: string) {
+    const intervencao = await this.intervencaoRepository.findById(id);
+    if (!intervencao)
+      throw new HttpException("Intervenção não encontrada", 404);
+    return await this.intervencaoRepository.update(payload, id);
   }
 }
