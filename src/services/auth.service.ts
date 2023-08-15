@@ -6,6 +6,7 @@ import { setPermissions } from "src/utils/roles.permissions";
 import { EnfermeiroService } from "./enfermeiro.service";
 import * as bcrypt from "bcrypt";
 import { ERoles } from "src/utils/ETypes";
+import { TokenDTO } from "src/dtos/auth/token.dto";
 
 @Injectable()
 export class AuthService {
@@ -48,12 +49,10 @@ export class AuthService {
 
   async decodeJWT(token: string): Promise<any> {
     const tokenExtracted = this.extractToken(token);
-
     if (!tokenExtracted)
       throw new HttpException("Token não provido", HttpStatus.UNAUTHORIZED);
 
     const decodedToken = await this.jwtService.decode(tokenExtracted);
-
     return decodedToken;
   }
 

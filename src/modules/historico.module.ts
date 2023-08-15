@@ -5,6 +5,7 @@ import { HistoricoService } from "src/services/historico.service";
 import { PacienteModule } from "./paciente.module";
 import { FeridaModule } from "./ferida.module";
 import { EnfermeiroModule } from "./enfermeiro.module";
+import { AuthModule } from "./auth.module";
 
 @Module({
   providers: [
@@ -16,6 +17,6 @@ import { EnfermeiroModule } from "./enfermeiro.module";
   ],
   controllers: [HistoricoController],
   exports: [HistoricoService],
-  imports: [PacienteModule, FeridaModule, EnfermeiroModule],
+  imports: [PacienteModule, FeridaModule, EnfermeiroModule, AuthModule],
 })
 export class HistoricoModule {}

@@ -13,7 +13,7 @@ export class PacienteRepository
     super();
   }
 
-  create(data: Paciente): Promise<Paciente> {
+  create(data: Paciente): Promise<any> {
     return this.repository.paciente.create({
       data: {
         ...data,
@@ -21,7 +21,7 @@ export class PacienteRepository
     });
   }
 
-  findAll(): Promise<Paciente[]> {
+  findAll(): Promise<any[]> {
     return this.repository.paciente.findMany({
       orderBy: {
         createdAt: "desc",
@@ -29,7 +29,7 @@ export class PacienteRepository
     });
   }
 
-  delete(id: string): Promise<Paciente> {
+  delete(id: string): Promise<any> {
     return this.repository.paciente.delete({
       where: {
         id: id as string,
@@ -41,6 +41,17 @@ export class PacienteRepository
     return this.repository.paciente.findUnique({
       where: {
         id: id,
+      },
+      include: {
+        Historico: {
+          orderBy: {
+            createdAt: "desc",
+          },
+          include: {
+            ferida: true,
+            enfermeiro: true,
+          },
+        },
       },
     });
   }

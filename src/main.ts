@@ -20,6 +20,7 @@ async function bootstrap() {
     .setDescription("The Pé Diabético API description")
     .setVersion("1.0")
     .addTag("Pé Diabético")
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("swagger", app, document);

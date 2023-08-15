@@ -32,8 +32,13 @@ export class PacienteService {
   }
 
   async findOne(id: string): Promise<Paciente> {
-    return await this.pacienteRepository.findOne(id);
+    const paciente = await this.pacienteRepository.findOne(id);
+    console.log(paciente);
+    if (!paciente)
+      throw new HttpException("Paciente não encontrado", HttpStatus.NOT_FOUND);
+    return paciente;
   }
+
   async update(id: string, payload: CreateTodoPaciente) {
     const paciente = await this.pacienteRepository.findOne(id);
 

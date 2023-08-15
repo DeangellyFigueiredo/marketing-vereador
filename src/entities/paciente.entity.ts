@@ -1,4 +1,5 @@
 import { v4 as uuid } from "uuid";
+import { Historico } from "./historico.entity";
 
 export class Paciente {
   id: string;
@@ -10,11 +11,16 @@ export class Paciente {
   medicamentosEmUso?: string;
   nomeResponsavel?: string;
   telefoneResponsavel?: string;
+  Historico: Historico[] | null;
   createdAt: Date;
   updatedAt?: Date;
 
-  constructor(props: Omit<Paciente, "id" | "createdAt">, id?: string) {
+  constructor(
+    props: Omit<Paciente, "id" | "createdAt" | "Historico">,
+    id?: string
+  ) {
     Object.assign(this, props);
+    this.Historico = this.Historico ?? [];
     this.id = id ?? uuid();
   }
 }
