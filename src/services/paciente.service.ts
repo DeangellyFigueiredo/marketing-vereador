@@ -24,6 +24,7 @@ export class PacienteService {
         id: paciente.id,
         nome: paciente.nome,
         idade: paciente.idade,
+        sexo: paciente.sexo,
       };
     });
   }
