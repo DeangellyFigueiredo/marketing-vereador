@@ -16,7 +16,16 @@ export class PacienteRepository
   create(data: Paciente): Promise<any> {
     return this.repository.paciente.create({
       data: {
-        ...data,
+        id: data.id,
+        nome: data.nome,
+        idade: data.idade,
+        sexo: data.sexo,
+        alergias: data.alergias,
+        condicoesPreexistentes: data.condicoesPreexistentes,
+        medicamentosEmUso: data.medicamentosEmUso,
+        nomeResponsavel: data.nomeResponsavel,
+        telefoneResponsavel: data.telefoneResponsavel,
+        createdAt: new Date(),
       },
     });
   }
@@ -49,6 +58,14 @@ export class PacienteRepository
           },
           include: {
             ferida: true,
+            enfermeiro: true,
+          },
+        },
+        Intervencao: {
+          orderBy: {
+            createdAt: "desc",
+          },
+          include: {
             enfermeiro: true,
           },
         },

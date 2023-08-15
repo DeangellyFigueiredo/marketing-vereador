@@ -40,4 +40,9 @@ export class PacienteController {
   async delete(@Param("id") id: string) {
     return await this.pacienteService.delete(id);
   }
+
+  @Get("/atendimento/:id")
+  async findById(@Param("id") id: string): Promise<any> {
+    return await this.pacienteService.findById(id);
+  }
 }

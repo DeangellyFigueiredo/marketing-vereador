@@ -9,7 +9,7 @@ generator client {
 }
 
 model Paciente {
-  id                     String      @id @unique
+  id                     String        @id @unique
   nome                   String
   idade                  String
   sexo                   String
@@ -18,19 +18,21 @@ model Paciente {
   medicamentosEmUso      String?
   nomeResponsavel        String?
   telefoneResponsavel    String?
-  createdAt              DateTime    @default(now())
+  createdAt              DateTime      @default(now())
   updatedAt              DateTime?
   Historico              Historico[]
+  Intervencao            Intervencao[]
 }
 
 model Enfermeiro {
-  id        String      @id @unique
-  nome      String
-  coren     String      @unique
-  cargo     String
-  password  String
-  createdAt DateTime    @default(now())
-  Historico Historico[]
+  id          String        @id @unique
+  nome        String
+  coren       String        @unique
+  cargo       String
+  password    String
+  createdAt   DateTime      @default(now())
+  Historico   Historico[]
+  Intervencao Intervencao[]
 }
 
 model Ferida {
@@ -58,4 +60,18 @@ model Historico {
   imagem                String
   createdAt             DateTime   @default(now())
   updatedAt             DateTime?
+}
+
+model Intervencao {
+  id                  String     @id @unique
+  diagnostico         String
+  tratamento          String
+  resultadosObtidos   String?
+  resultadosEsperados String
+  enfermeiroId        String
+  enfermeiro          Enfermeiro @relation(fields: [enfermeiroId], references: [id])
+  pacienteId          String
+  paciente            Paciente   @relation(fields: [pacienteId], references: [id])
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime?
 }

@@ -8,6 +8,7 @@ import { FeridaModule } from "./ferida.module";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
 import { HistoricoModule } from "./historico.module";
+import { IntervencaoModule } from "./intervencao.module";
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { HistoricoModule } from "./historico.module";
     AuthModule,
     FeridaModule,
     HistoricoModule,
+    IntervencaoModule,
   ],
 })
 export class AppModule {}

@@ -84,9 +84,4 @@ export class HistoricoController {
   ) {
     return await this.historicoService.create(payload, file.filename, token);
   }
-
-  @Get("/:id")
-  async findById(@Param("id") id: string): Promise<any> {
-    return await this.historicoService.findById(id);
-  }
 }

@@ -49,33 +49,4 @@ export class HistoricoService {
       })
     );
   }
-
-  async findById(id: string): Promise<MappedPaciente> {
-    const paciente = await this.pacienteService.findOne(id);
-    return this.mappePaciente(paciente);
-  }
-
-  private mappePaciente(paciente: Paciente): MappedPaciente {
-    return {
-      id: paciente.id,
-      nome: paciente.nome,
-      idade: paciente.idade,
-      sexo: paciente.sexo,
-      historico: paciente.Historico
-        ? paciente.Historico.map((historico) => {
-            return {
-              id: historico.id,
-              data: historico.createdAt,
-              procedimentoRealizado: historico.procedimentoRealizado,
-              observacoes: historico.observacoes,
-              tipoDeFerida: historico.ferida.tipoFerida,
-              presencaInfeccao: historico.ferida.presencaInfeccao,
-              tratamentoRecomendado: historico.ferida.tratamentoRecomendado,
-              enfermeiro: historico.enfermeiro.nome,
-              imagem: `http://${process.env.IP_BACKEND}:${process.env.PORT_BACKEND}/${historico.imagem}`,
-            };
-          })
-        : [],
-    };
-  }
 }
