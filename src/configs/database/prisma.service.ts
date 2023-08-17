@@ -16,8 +16,22 @@ export class PrismaService
     await this.$connect();
     //create 10 patients
     const paciente = await this.paciente.count();
-    if (paciente === 0 && process.env.MOCK_SERVER === "true") {
-      console.log("Criando pacientes...");
+    if (process.env.MOCK_SERVER === "true") {
+      const hasAdmin = await this.enfermeiro.findFirst({
+        where: {
+          cargo: ERoles.ROLE_Administrativo,
+        },
+      });
+      if (!hasAdmin)
+        await this.enfermeiro.create({
+          data: {
+            id: uuid(),
+            nome: "Administrador",
+            cargo: ERoles.ROLE_Administrativo,
+            coren: "000000",
+            password: await bcrypt.hash("123456", 10),
+          },
+        });
     }
   }
   async onModuleDestroy() {
