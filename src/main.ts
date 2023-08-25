@@ -28,7 +28,7 @@ async function bootstrap() {
   await app.listen(process.env.PORT_BACKEND, () => {
     console.log(`🤖 server running on port ${process.env.PORT_BACKEND}...`);
     console.log(
-      `🤖 swagger running on port http://localhost:${process.env.PORT_BACKEND}/swagger`
+      `🚀 swagger running on port http://localhost:${process.env.PORT_BACKEND}/swagger`
     );
   });
 }

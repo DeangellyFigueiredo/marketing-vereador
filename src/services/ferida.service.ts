@@ -18,13 +18,10 @@ export class FeridaService {
 
   async findAll() {
     const feridas = await this.feridaRepository.findAll();
-    return feridas.map(
-      (ferida) =>
-        new Ferida({
-          ...ferida,
-          imagem: `http://${process.env.IP_BACKEND}:${process.env.PORT_BACKEND}/${ferida.imagem}`,
-        })
-    );
+    return feridas.map((ferida) => ({
+      ...ferida,
+      imagem: `http://${process.env.IP_BACKEND}:${process.env.PORT_BACKEND}/${ferida.imagem}`,
+    }));
   }
 
   async findById(id: string) {
