@@ -1,21 +1,18 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { fromUnixTime, isAfter } from "date-fns";
-import { EnfermeiroDTO } from "src/dtos/enfermeiro/authEnfermeiro.dto";
 import { setPermissions } from "src/utils/roles.permissions";
-import { EnfermeiroService } from "./enfermeiro.service";
 import * as bcrypt from "bcrypt";
 import { ERoles } from "src/utils/ETypes";
 import { TokenDTO } from "src/dtos/auth/token.dto";
+import { AdmService } from "./adm.service";
+import { AdmDTO } from "src/dtos/adm/authAdm.dto";
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private jwtService: JwtService,
-    private enfermeiroService: EnfermeiroService
-  ) {}
+  constructor(private jwtService: JwtService, private admService: AdmService) {}
   async validateUser(login: string, pass: string): Promise<any> {
-    const user = await this.enfermeiroService.findOne(login);
+    const user = await this.admService.findOne(login);
     if (user && user.password === pass) {
       const { password, ...result } = user;
       return result;
@@ -87,8 +84,8 @@ export class AuthService {
     return token;
   }
 
-  async enfermeiroLogin(data: EnfermeiroDTO): Promise<any> {
-    const user = await this.enfermeiroService.findOne(data.coren);
+  async admLogin(data: AdmDTO): Promise<any> {
+    const user = await this.admService.findOne(data.email);
     if (!user)
       throw new HttpException(
         "Usuário ou senha inválidos",
@@ -102,11 +99,9 @@ export class AuthService {
         "E-mail ou senha inválido",
         HttpStatus.UNAUTHORIZED
       );
-    if (user.cargo === "Administrador Chefe")
-      user.cargo = ERoles.ROLE_Administrativo;
     const token = this.generateToken(1 * 1000 * 60 * 60, {
       id: user.id,
-      role: user.cargo,
+      role: ERoles.ROLE_Administrativo,
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

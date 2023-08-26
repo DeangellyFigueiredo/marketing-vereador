@@ -1,8 +1,8 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { Public } from "src/decorators/public.decorator";
+import { AdmDTO } from "src/dtos/adm/authAdm.dto";
 import { TokenDTO } from "src/dtos/auth/token.dto";
-import { EnfermeiroDTO } from "src/dtos/enfermeiro/authEnfermeiro.dto";
 import { AuthService } from "src/services/auth.service";
 
 @Controller("/api/auths")
@@ -12,8 +12,8 @@ export class AuthController {
 
   @Public()
   @Post("/login")
-  async login(@Body() req: EnfermeiroDTO) {
-    return this.authService.enfermeiroLogin(req);
+  async login(@Body() req: AdmDTO) {
+    return this.authService.admLogin(req);
   }
 
   @Public()

@@ -8,70 +8,11 @@ generator client {
   binaryTargets = ["native"]
 }
 
-model Paciente {
-  id                     String        @id @unique
-  nome                   String
-  idade                  String
-  sexo                   String
-  alergias               String?
-  condicoesPreexistentes String?
-  medicamentosEmUso      String?
-  nomeResponsavel        String?
-  telefoneResponsavel    String?
-  createdAt              DateTime      @default(now())
-  updatedAt              DateTime?
-  Historico              Historico[]
-  Intervencao            Intervencao[]
-}
-
-model Enfermeiro {
-  id          String        @id @unique
-  nome        String
-  coren       String        @unique
-  cargo       String
-  password    String
-  createdAt   DateTime      @default(now())
-  Historico   Historico[]
-  Intervencao Intervencao[]
-}
-
-model Ferida {
-  id                    String      @id @unique
-  tipoFerida            String
-  grauDaFerida          String
-  presencaInfeccao      String
-  tratamentoRecomendado String
-  imagem                String
-  historico             Historico[]
-  createdAt             DateTime    @default(now())
-}
-
-model Historico {
-  id                    String     @id @unique
-  procedimentoRealizado String
-  observacoes           String
-  localizacaoFerida     String
-  feridaId              String
-  ferida                Ferida     @relation(fields: [feridaId], references: [id])
-  pacienteId            String
-  paciente              Paciente   @relation(fields: [pacienteId], references: [id])
-  enfermeiroId          String
-  enfermeiro            Enfermeiro @relation(fields: [enfermeiroId], references: [id])
-  imagem                String
-  createdAt             DateTime   @default(now())
-  updatedAt             DateTime?
-}
-
-model Intervencao {
-  id                  String     @id @unique
-  diagnostico         String
-  tratamento          String
-  resultadosObtidos   String?
-  resultadosEsperados String
-  enfermeiroId        String
-  enfermeiro          Enfermeiro @relation(fields: [enfermeiroId], references: [id])
-  pacienteId          String
-  paciente            Paciente   @relation(fields: [pacienteId], references: [id])
-  createdAt           DateTime   @default(now())
-  updatedAt           DateTime?
+model Adm {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

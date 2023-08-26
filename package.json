@@ -1,8 +1,8 @@
 {
-  "name": "boilerplate-backend",
+  "name": "marketing-vereador-backend",
   "version": "1.0.0",
-  "description": "Projeto base para iniciar novas API's para projetos ICTS/Denso.",
-  "author": "Grupo ICTS",
+  "description": "Projeto Marketing Vereador.",
+  "author": "",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

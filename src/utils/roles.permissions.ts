@@ -6,20 +6,11 @@ export const setPermissions = (roles: ERoles) => {
     throw new HttpException("Não autorizado", HttpStatus.UNAUTHORIZED);
   if (roles === ERoles.ROLE_Administrativo)
     return [
-      "create-enfermeiro",
-      "create-paciente",
-      "delete-paciente",
-      "list-enfermeiro",
-      "list-paciente",
-      "delete-enfermeiro",
-      "update-enfermeiro",
+      //toDO
     ];
 
-  if (roles === ERoles.ROLE_Enfermeiro)
+  if (roles === ERoles.ROLE_Lider)
     return [
-      "atender-paciente",
-      "list-paciente",
-      "update-paciente",
-      "delete-paciente",
+      //TODO
     ];
 };

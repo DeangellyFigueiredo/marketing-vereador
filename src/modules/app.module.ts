@@ -1,14 +1,10 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { PacienteModule } from "./paciente.module";
-import { RepositoryModule } from "./repository.module";
-import { EnfermeiroModule } from "./enfermeiro.module";
 import { AuthModule } from "./auth.module";
-import { FeridaModule } from "./ferida.module";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
-import { HistoricoModule } from "./historico.module";
-import { IntervencaoModule } from "./intervencao.module";
+import { AdmModule } from "./adm.module";
+import { RepositoryModule } from "./repository.module";
 
 @Module({
   imports: [
@@ -16,13 +12,9 @@ import { IntervencaoModule } from "./intervencao.module";
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, "..", "../tmp/uploads"),
     }),
-    RepositoryModule,
-    PacienteModule,
-    EnfermeiroModule,
     AuthModule,
-    FeridaModule,
-    HistoricoModule,
-    IntervencaoModule,
+    AdmModule,
+    RepositoryModule,
   ],
 })
 export class AppModule {}

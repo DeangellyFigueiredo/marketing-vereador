@@ -16,10 +16,10 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
   const config = new DocumentBuilder()
-    .setTitle("Pé diabético")
-    .setDescription("The Pé Diabético API description")
+    .setTitle("Marketing Vereador")
+    .setDescription("The Marketing Vereador API description")
     .setVersion("1.0")
-    .addTag("Pé Diabético")
+    .addTag("Marketing Vereador")
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);

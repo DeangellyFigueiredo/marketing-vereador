@@ -1,14 +1,13 @@
 import { v4 as uuid } from "uuid";
 
-export class Enfermeiro {
+export class Adm {
   id: string;
-  nome: string;
-  coren: string;
-  cargo: string;
+  name: string;
+  email: string;
   password: string;
   createdAt: Date;
 
-  constructor(props: Omit<Enfermeiro, "id" | "createdAt">, id?: string) {
+  constructor(props: Omit<Adm, "id" | "createdAt">, id?: string) {
     Object.assign(this, props);
     this.id = id ?? uuid();
   }
