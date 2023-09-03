@@ -5,6 +5,7 @@ import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
 import { AdmModule } from "./adm.module";
 import { RepositoryModule } from "./repository.module";
+import { ColaboradorModule } from "./colaborador.module";
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { RepositoryModule } from "./repository.module";
     AuthModule,
     AdmModule,
     RepositoryModule,
+    ColaboradorModule,
   ],
 })
 export class AppModule {}
