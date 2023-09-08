@@ -4,13 +4,15 @@ import { v4 as uuid } from "uuid";
 export class Colaborador {
   id: string;
   nome: string;
-  endereco: string;
+  rua: string;
+  bairro: string;
+  idade: number;
   telefone: string;
   email: string;
   profissao: string;
   escolaridade: string;
   redesSociais: string;
-  localVotacao: string;
+  cep: string;
   dataNascimento: Date;
   rg: string;
   orgaoExpedidor: string;
