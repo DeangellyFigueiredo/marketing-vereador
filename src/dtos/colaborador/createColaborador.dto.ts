@@ -4,6 +4,7 @@ import {
   IsDateString,
   IsDefined,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
 } from "class-validator";
@@ -18,7 +19,16 @@ export class CreateColaboradorDTO {
   @IsDefined()
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
-  endereco: string;
+  rua: string;
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  @Transform(({ value }) => value.trim())
+  bairro: string;
+  @IsNumber()
+  @IsDefined()
+  @IsNotEmpty()
+  idade: number;
   @IsString()
   @IsDefined()
   @IsNotEmpty()
@@ -48,7 +58,7 @@ export class CreateColaboradorDTO {
   @IsDefined()
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
-  localVotacao: string;
+  cep: string;
   @IsDefined()
   dataNascimento: Date;
   @IsString()

@@ -9,8 +9,7 @@ import IColaboradorRepository from "./colaborador.repository.contract";
 @Injectable()
 export class ColaboradorRepository
   extends Pageable<Colaborador>
-  implements IColaboradorRepository
-{
+  implements IColaboradorRepository {
   constructor(private readonly repository: PrismaService) {
     super();
   }
@@ -36,13 +35,15 @@ export class ColaboradorRepository
     const data = {
       id: payload.id,
       nome: payload.nome,
-      endereco: payload.endereco,
+      rua: payload.rua,
+      bairro: payload.bairro,
+      idade: payload.idade,
       telefone: payload.telefone,
       email: payload.email,
       profissao: payload.profissao,
       escolaridade: payload.escolaridade,
       redesSociais: payload.redesSociais,
-      localVotacao: payload.localVotacao,
+      cep: payload.cep,
       dataNascimento: payload.dataNascimento,
       rg: payload.rg,
       orgaoExpedidor: payload.orgaoExpedidor,
@@ -55,12 +56,12 @@ export class ColaboradorRepository
       liderId: payload.liderId,
       ...(payload.admId !== null &&
         payload.admId !== undefined && {
-          Adm: {
-            connect: {
-              id: payload.admId,
-            },
+        Adm: {
+          connect: {
+            id: payload.admId,
           },
-        }),
+        },
+      }),
     };
     return await this.repository.colaborador.create({
       data: { ...data },

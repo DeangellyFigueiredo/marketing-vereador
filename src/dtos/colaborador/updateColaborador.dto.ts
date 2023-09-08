@@ -1,10 +1,12 @@
 export class UpdateColaboradorDTO {
-  endereco: string;
+  rua: string;
+  bairro: string;
+  idade: number;
   telefone: string;
   profissao: string;
   escolaridade: string;
   redesSociais: string;
-  localVotacao: string;
+  cep: string;
   dataNascimento: Date;
   orgaoExpedidor: string;
   tituloEleitor: string;

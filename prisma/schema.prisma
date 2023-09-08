@@ -22,13 +22,15 @@ model Adm {
 model Colaborador {
   id              String    @id @default(cuid())
   nome            String
-  endereco        String
+  idade           Int
+  rua             String
+  bairro          String
   telefone        String
   email           String    @unique
   profissao       String
   escolaridade    String
   redesSociais    String
-  localVotacao    String
+  cep             String
   dataNascimento  DateTime
   rg              String    @unique
   orgaoExpedidor  String
@@ -49,13 +51,15 @@ model Colaborador {
 model Lider {
   id              String    @id @default(cuid())
   nome            String
-  endereco        String
+  idade           Int
+  rua             String
+  bairro          String
   telefone        String
   email           String
   profissao       String
   escolaridade    String
   redesSociais    String
-  localVotacao    String
+  cep             String
   dataNascimento  DateTime
   rg              String
   orgaoExpedidor  String
