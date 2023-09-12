@@ -9,7 +9,8 @@ import IColaboradorRepository from "./colaborador.repository.contract";
 @Injectable()
 export class ColaboradorRepository
   extends Pageable<Colaborador>
-  implements IColaboradorRepository {
+  implements IColaboradorRepository
+{
   constructor(private readonly repository: PrismaService) {
     super();
   }
@@ -17,14 +18,14 @@ export class ColaboradorRepository
   async findOneId(id: string): Promise<Colaborador> {
     return await this.repository.colaborador.findUnique({
       where: {
-        id: id,
+        id,
       },
     });
   }
   async update(data: UpdateColaboradorDTO, id: string): Promise<Colaborador> {
     return await this.repository.colaborador.update({
       where: {
-        id: id,
+        id,
       },
       data: {
         ...data,
@@ -36,6 +37,7 @@ export class ColaboradorRepository
       id: payload.id,
       nome: payload.nome,
       rua: payload.rua,
+      numeroCasa: payload.numeroCasa,
       bairro: payload.bairro,
       idade: payload.idade,
       telefone: payload.telefone,
@@ -44,6 +46,8 @@ export class ColaboradorRepository
       escolaridade: payload.escolaridade,
       redesSociais: payload.redesSociais,
       cep: payload.cep,
+      latitude: payload.latitude,
+      longitude: payload.longitude,
       dataNascimento: payload.dataNascimento,
       rg: payload.rg,
       orgaoExpedidor: payload.orgaoExpedidor,
@@ -56,12 +60,12 @@ export class ColaboradorRepository
       liderId: payload.liderId,
       ...(payload.admId !== null &&
         payload.admId !== undefined && {
-        Adm: {
-          connect: {
-            id: payload.admId,
+          Adm: {
+            connect: {
+              id: payload.admId,
+            },
           },
-        },
-      }),
+        }),
     };
     return await this.repository.colaborador.create({
       data: { ...data },
@@ -69,10 +73,8 @@ export class ColaboradorRepository
   }
   async findAll(): Promise<Partial<Colaborador>[]> {
     return await this.repository.colaborador.findMany({
-      select: {
-        id: true,
-        nome: true,
-        email: true,
+      where: {
+        deletedAt: null,
       },
     });
   }

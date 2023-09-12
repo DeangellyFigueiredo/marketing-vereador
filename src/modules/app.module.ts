@@ -6,6 +6,7 @@ import { join } from "path";
 import { AdmModule } from "./adm.module";
 import { RepositoryModule } from "./repository.module";
 import { ColaboradorModule } from "./colaborador.module";
+import { LiderModule } from "./lider.module";
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ColaboradorModule } from "./colaborador.module";
     AdmModule,
     RepositoryModule,
     ColaboradorModule,
+    LiderModule,
   ],
 })
 export class AppModule {}

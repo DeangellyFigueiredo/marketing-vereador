@@ -4,13 +4,18 @@ import { v4 as uuid } from "uuid";
 export class Lider {
   id: string;
   nome: string;
-  endereco: string;
+  idade: number;
+  rua: string;
+  numeroCasa: string;
+  bairro: string;
+  cep: string;
+  latitude: string;
+  longitude: string;
   telefone: string;
   email: string;
   profissao: string;
   escolaridade: string;
   redesSociais: string;
-  localVotacao: string;
   dataNascimento: Date;
   rg: string;
   orgaoExpedidor: string;
@@ -23,8 +28,8 @@ export class Lider {
   adm?: Adm;
   admId?: string | null;
   createdAt: Date;
-  updatedAt?: Date;
-  deletedAt?: Date;
+  updatedAt?: Date | null;
+  deletedAt?: Date | null;
 
   constructor(
     props: Omit<

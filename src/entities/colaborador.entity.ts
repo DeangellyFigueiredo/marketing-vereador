@@ -5,6 +5,7 @@ export class Colaborador {
   id: string;
   nome: string;
   rua: string;
+  numeroCasa: string;
   bairro: string;
   idade: number;
   telefone: string;
@@ -13,6 +14,8 @@ export class Colaborador {
   escolaridade: string;
   redesSociais: string;
   cep: string;
+  latitude: string;
+  longitude: string;
   dataNascimento: Date;
   rg: string;
   orgaoExpedidor: string;

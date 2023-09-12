@@ -4,8 +4,11 @@ import {
   IsDateString,
   IsDefined,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
+  Max,
+  Min,
 } from "class-validator";
 
 export class CreateLiderDTO {
@@ -18,7 +21,37 @@ export class CreateLiderDTO {
   @IsDefined()
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
-  endereco: string;
+  rua: string;
+  @IsNumber({ allowInfinity: false, allowNaN: false })
+  @Min(15, { message: "Idade mínima de 15 anos!" })
+  @Max(99, { message: "Idade máxima de 99 anos!" })
+  @IsDefined()
+  idade: number;
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  @Transform(({ value }) => value.trim())
+  bairro: string;
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  @Transform(({ value }) => value.trim())
+  numeroCasa: string;
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  @Transform(({ value }) => value.trim())
+  cep: string;
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  @Transform(({ value }) => value.trim())
+  latitude: string;
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  @Transform(({ value }) => value.trim())
+  longitude: string;
   @IsString()
   @IsDefined()
   @IsNotEmpty()
@@ -44,11 +77,6 @@ export class CreateLiderDTO {
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
   redesSociais: string;
-  @IsString()
-  @IsDefined()
-  @IsNotEmpty()
-  @Transform(({ value }) => value.trim())
-  localVotacao: string;
   @IsDefined()
   dataNascimento: Date;
   @IsString()

@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
-import { Lider } from "@prisma/client";
 import { Pageable } from "src/configs/database/pageable.service";
 import { PrismaService } from "src/configs/database/prisma.service";
 import { UpdateLiderDTO } from "src/dtos/lider/updateLider.dto";
 import { getDateInLocaleTime } from "src/utils/date.service";
 import ILiderRepository from "./lider.repository.contract";
+import { Lider } from "src/entities/lider.entity";
 
 @Injectable()
 export class LiderRepository
@@ -36,13 +36,18 @@ export class LiderRepository
     const data = {
       id: payload.id,
       nome: payload.nome,
-      endereco: payload.endereco,
       telefone: payload.telefone,
+      idade: payload.idade,
+      rua: payload.rua,
+      bairro: payload.bairro,
+      cep: payload.cep,
+      numeroCasa: payload.numeroCasa,
+      latitude: payload.latitude,
+      longitude: payload.longitude,
       email: payload.email,
       profissao: payload.profissao,
       escolaridade: payload.escolaridade,
       redesSociais: payload.redesSociais,
-      localVotacao: payload.localVotacao,
       dataNascimento: payload.dataNascimento,
       rg: payload.rg,
       orgaoExpedidor: payload.orgaoExpedidor,

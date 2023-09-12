@@ -24,6 +24,7 @@ model Colaborador {
   nome            String
   idade           Int
   rua             String
+  numeroCasa      String
   bairro          String
   telefone        String
   email           String    @unique
@@ -31,6 +32,8 @@ model Colaborador {
   escolaridade    String
   redesSociais    String
   cep             String
+  latitude        String?   @default("")
+  longitude       String?   @default("")
   dataNascimento  DateTime
   rg              String    @unique
   orgaoExpedidor  String
@@ -53,6 +56,7 @@ model Lider {
   nome            String
   idade           Int
   rua             String
+  numeroCasa      String
   bairro          String
   telefone        String
   email           String
@@ -60,6 +64,8 @@ model Lider {
   escolaridade    String
   redesSociais    String
   cep             String
+  latitude        String?   @default("")
+  longitude       String?   @default("")
   dataNascimento  DateTime
   rg              String
   orgaoExpedidor  String
@@ -70,7 +76,7 @@ model Lider {
   recebeBeneficio Boolean
   faixaSalarial   String
   createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  updatedAt       DateTime? @updatedAt
   deletedAt       DateTime?
   Adm             Adm?      @relation(fields: [admId], references: [id])
   admId           String?

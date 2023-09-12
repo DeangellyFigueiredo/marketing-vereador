@@ -25,6 +25,11 @@ export class CreateColaboradorDTO {
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
   bairro: string;
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  @Transform(({ value }) => value.trim())
+  numeroCasa: string;
   @IsNumber()
   @IsDefined()
   @IsNotEmpty()
@@ -59,6 +64,16 @@ export class CreateColaboradorDTO {
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
   cep: string;
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  @Transform(({ value }) => value.trim())
+  latitude: string;
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  @Transform(({ value }) => value.trim())
+  longitude: string;
   @IsDefined()
   dataNascimento: Date;
   @IsString()

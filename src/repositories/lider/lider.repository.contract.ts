@@ -1,5 +1,5 @@
-import { Lider } from "@prisma/client";
 import { UpdateLiderDTO } from "src/dtos/lider/updateLider.dto";
+import { Lider } from "src/entities/lider.entity";
 
 export default interface ILiderRepository {
   create(payload: Lider): Promise<Lider>;

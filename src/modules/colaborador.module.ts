@@ -2,6 +2,9 @@ import { Module } from "@nestjs/common";
 import { ColaboradorController } from "src/controllers/colaborador.controller";
 import { ColaboradorRepository } from "src/repositories/colaborador/colaborador.repository";
 import { ColaboradorService } from "src/services/colaborador.service";
+import { LiderModule } from "./lider.module";
+import { AuthModule } from "./auth.module";
+import { AdmModule } from "./adm.module";
 
 @Module({
   providers: [
@@ -13,5 +16,6 @@ import { ColaboradorService } from "src/services/colaborador.service";
   ],
   controllers: [ColaboradorController],
   exports: [ColaboradorService],
+  imports: [LiderModule, AuthModule, AdmModule],
 })
 export class ColaboradorModule {}
