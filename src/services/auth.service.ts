@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  forwardRef,
+} from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { fromUnixTime, isAfter } from "date-fns";
 import { setPermissions } from "src/utils/roles.permissions";
@@ -10,7 +16,11 @@ import { AdmDTO } from "src/dtos/adm/authAdm.dto";
 
 @Injectable()
 export class AuthService {
-  constructor(private jwtService: JwtService, private admService: AdmService) {}
+  constructor(
+    private jwtService: JwtService,
+    @Inject(forwardRef(() => AdmService))
+    private admService: AdmService
+  ) {}
   async validateUser(login: string, pass: string): Promise<any> {
     const user = await this.admService.findOne(login);
     if (user && user.password === pass) {
@@ -99,13 +109,28 @@ export class AuthService {
         "E-mail ou senha inválido",
         HttpStatus.UNAUTHORIZED
       );
-    const token = this.generateToken(1 * 1000 * 60 * 60, {
-      id: user.id,
-      role: ERoles.ROLE_Administrativo,
-    });
+
+    const token = this.generateToken(
+      1 * 1000 * 60 * 60,
+      user.firstLogin
+        ? { id: user.id, role: ERoles.ROLE_PrimeiroLogin }
+        : {
+            id: user.id,
+            role: ERoles.ROLE_Administrativo,
+          }
+    );
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { createdAt, password, ...result } = user;
+    const {
+      createdAt,
+      password,
+      firstLogin,
+      email,
+      cpf,
+      updatedAt,
+      name,
+      ...result
+    } = user;
 
     return { ...result, token };
   }

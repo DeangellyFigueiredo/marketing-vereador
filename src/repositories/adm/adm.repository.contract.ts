@@ -8,4 +8,5 @@ export default interface IAdmRepository {
   findOne(email: string): Promise<Adm>;
   findOneId(id: string): Promise<Adm>;
   update(data: UpdateAdmDTO, id: string): Promise<Adm>;
+  updateFirstLogin(id: string, password: string): Promise<Adm>;
 }

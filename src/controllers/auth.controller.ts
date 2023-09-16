@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Post, Put } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { Public } from "src/decorators/public.decorator";
 import { AdmDTO } from "src/dtos/adm/authAdm.dto";

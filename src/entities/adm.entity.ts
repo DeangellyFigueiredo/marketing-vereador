@@ -5,9 +5,12 @@ export class Adm {
   name: string;
   email: string;
   password: string;
+  cpf: string;
+  firstLogin?: boolean;
   createdAt: Date;
+  updatedAt?: Date;
 
-  constructor(props: Omit<Adm, "id" | "createdAt">, id?: string) {
+  constructor(props: Omit<Adm, "id" | "createdAt" | "fistLogin">, id?: string) {
     Object.assign(this, props);
     this.id = id ?? uuid();
   }

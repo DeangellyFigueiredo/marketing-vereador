@@ -21,7 +21,9 @@ export class ColaboradorService {
     private readonly colaboradorRepository: ColaboradorRepository,
     @Inject(forwardRef(() => LiderService))
     private readonly liderService: LiderService,
+    @Inject(forwardRef(() => AuthService))
     private readonly authService: AuthService,
+    @Inject(forwardRef(() => AdmService))
     private readonly admService: AdmService
   ) {}
 

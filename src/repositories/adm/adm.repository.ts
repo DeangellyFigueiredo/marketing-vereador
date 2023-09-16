@@ -38,12 +38,26 @@ export class AdmRepository extends Pageable<Adm> implements IAdmRepository {
       },
     });
   }
+
+  updateFirstLogin(id: string, password: string): Promise<Adm> {
+    return this.repository.adm.update({
+      where: {
+        id: id,
+      },
+      data: {
+        firstLogin: false,
+        password: password,
+        updatedAt: new Date(),
+      },
+    });
+  }
   create(payload: Adm): Promise<Adm> {
     return this.repository.adm.create({
       data: {
         id: payload.id,
         name: payload.name,
         email: payload.email,
+        cpf: payload.cpf,
         password: payload.password,
         createdAt: getDateInLocaleTime(new Date()),
       },

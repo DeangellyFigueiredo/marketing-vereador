@@ -1,7 +1,9 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsString } from "class-validator";
 
 export class HeaderDTO {
-    @IsString()
-    @IsNotEmpty()
-    authorization: string;
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  authorization: string;
 }

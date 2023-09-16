@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module, forwardRef } from "@nestjs/common";
 import { ColaboradorController } from "src/controllers/colaborador.controller";
 import { ColaboradorRepository } from "src/repositories/colaborador/colaborador.repository";
 import { ColaboradorService } from "src/services/colaborador.service";

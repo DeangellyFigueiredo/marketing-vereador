@@ -12,9 +12,11 @@ model Adm {
   id          String        @id @default(cuid())
   email       String        @unique
   name        String?
+  cpf         String        @unique
   password    String
   lider       Lider[]
   colaborador Colaborador[]
+  firstLogin  Boolean       @default(true)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 }

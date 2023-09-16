@@ -1,5 +1,10 @@
+import { ApiProperty } from "@nestjs/swagger";
+
 export class CreateAdmDTO {
+  @ApiProperty()
   name: string;
+  @ApiProperty()
   email: string;
-  password: string;
+  @ApiProperty()
+  cpf: string;
 }

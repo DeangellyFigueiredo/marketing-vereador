@@ -13,4 +13,6 @@ export const setPermissions = (roles: ERoles) => {
     return [
       //TODO
     ];
+
+  if (roles === ERoles.ROLE_PrimeiroLogin) return ["first-login"];
 };

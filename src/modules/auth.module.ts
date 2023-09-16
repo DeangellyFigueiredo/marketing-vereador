@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module, forwardRef } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
 import { JwtModule } from "@nestjs/jwt";
 import { RoleGuard } from "src/configs/authentication/auth.guard";
@@ -8,7 +8,7 @@ import { AdmModule } from "./adm.module";
 
 @Module({
   imports: [
-    AdmModule,
+    forwardRef(() => AdmModule),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: "60s" },
