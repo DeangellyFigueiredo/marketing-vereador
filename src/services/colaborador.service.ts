@@ -88,7 +88,6 @@ export class ColaboradorService {
       },
       ...(adm ? [adm.id] : [])
     );
-    console.log("objeto lider ->", lider);
     await this.liderService.create(lider);
     await this.colaboradorRepository.delete(id);
     return {
