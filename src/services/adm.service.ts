@@ -74,6 +74,12 @@ export class AdmService {
         "Administrador não encontrado",
         HttpStatus.NOT_FOUND
       );
+
+    if (!adm.firstLogin)
+      throw new HttpException(
+        "Administrador já realizou o primeiro login",
+        HttpStatus.BAD_REQUEST
+      );
     const password = bcrypt.hashSync(payload.password, 10);
     await this.admRepository.updateFirstLogin(tokenDecoded.sub.id, password);
     return await this.authService.admLogin({

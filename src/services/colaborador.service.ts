@@ -1,10 +1,4 @@
-import {
-  HttpCode,
-  HttpException,
-  Inject,
-  Injectable,
-  forwardRef,
-} from "@nestjs/common";
+import { HttpException, Inject, Injectable, forwardRef } from "@nestjs/common";
 import { CreateColaboradorDTO } from "src/dtos/colaborador/createColaborador.dto";
 import { UpdateColaboradorDTO } from "src/dtos/colaborador/updateColaborador.dto";
 import { Colaborador } from "src/entities/colaborador.entity";
@@ -75,9 +69,10 @@ export class ColaboradorService {
   }
 
   async updateToLider(id: string, token: string) {
+    let adm;
     if (process.env.NODE_ENV === "production") {
       const tokenExtracted = await this.authService.decodeJWT(token);
-      const adm = await this.admService.findOneId(tokenExtracted.sub.id);
+      adm = await this.admService.findOneId(tokenExtracted.sub.id);
       if (!adm) {
         throw new HttpException("Administrador não encontrado!", 404);
       }
@@ -87,10 +82,13 @@ export class ColaboradorService {
       throw new HttpException("Colaborador não encontrado!", 404);
     }
 
-    const lider: Lider = new Lider({
-      ...colaborador,
-    });
-
+    const lider: Lider = new Lider(
+      {
+        ...colaborador,
+      },
+      ...(adm ? [adm.id] : [])
+    );
+    console.log("objeto lider ->", lider);
     await this.liderService.create(lider);
     await this.colaboradorRepository.delete(id);
     return {

@@ -80,12 +80,9 @@ export class ColaboradorRepository
   }
 
   async delete(id: string): Promise<any> {
-    return await this.repository.colaborador.update({
+    return await this.repository.colaborador.delete({
       where: {
         id: id,
-      },
-      data: {
-        deletedAt: getDateInLocaleTime(new Date()),
       },
     });
   }
@@ -94,6 +91,11 @@ export class ColaboradorRepository
     return await this.repository.colaborador.findMany({
       where: {
         liderId: liderId,
+      },
+      select: {
+        nome: true,
+        cpf: true,
+        createdAt: true,
       },
     });
   }

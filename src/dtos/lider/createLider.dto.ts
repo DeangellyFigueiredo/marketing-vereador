@@ -142,14 +142,7 @@ export class CreateLiderDTO {
   faixaSalarial: string;
   @ApiProperty()
   @IsString()
-  @IsOptional()
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
   admId?: string;
-  @ApiProperty()
-  @IsString()
-  @IsOptional()
-  @IsNotEmpty()
-  @Transform(({ value }) => value.trim())
-  liderId?: string;
 }

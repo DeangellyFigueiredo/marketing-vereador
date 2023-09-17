@@ -80,6 +80,7 @@ model Lider {
   createdAt       DateTime  @default(now())
   updatedAt       DateTime? @updatedAt
   deletedAt       DateTime?
+  liderId         String?
   Adm             Adm?      @relation(fields: [admId], references: [id])
   admId           String?
 }

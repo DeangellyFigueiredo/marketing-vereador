@@ -33,6 +33,7 @@ export class LiderRepository
     });
   }
   async create(payload: Lider): Promise<Lider> {
+    console.log(payload);
     const data = {
       id: payload.id,
       nome: payload.nome,
@@ -57,6 +58,7 @@ export class LiderRepository
       secao: payload.secao,
       recebeBeneficio: payload.recebeBeneficio,
       faixaSalarial: payload.faixaSalarial,
+      liderId: payload.liderId,
       ...(payload.admId !== null &&
         payload.admId !== undefined && {
           Adm: {
@@ -66,6 +68,8 @@ export class LiderRepository
           },
         }),
     };
+
+    console.log(data);
     return await this.repository.lider.create({
       data: { ...data },
     });
@@ -87,6 +91,17 @@ export class LiderRepository
       },
       data: {
         deletedAt: getDateInLocaleTime(new Date()),
+      },
+    });
+  }
+
+  async reactivate(id: string): Promise<any> {
+    return await this.repository.lider.update({
+      where: {
+        id: id,
+      },
+      data: {
+        deletedAt: null,
       },
     });
   }

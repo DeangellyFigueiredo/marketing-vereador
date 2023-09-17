@@ -25,6 +25,7 @@ export class Lider {
   secao: string;
   recebeBeneficio: boolean;
   faixaSalarial: string;
+  liderId?: string | null;
   adm?: Adm;
   admId?: string | null;
   createdAt: Date;
@@ -36,9 +37,11 @@ export class Lider {
       Lider,
       "id" | "createdAt" | "updatedAt" | "deletedAt" | "admId" | "adm"
     >,
+    admId?: string,
     id?: string
   ) {
     Object.assign(this, props);
+    this.admId = admId;
     this.id = id ?? uuid();
   }
 }
