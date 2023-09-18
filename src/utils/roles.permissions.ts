@@ -6,7 +6,20 @@ export const setPermissions = (roles: ERoles) => {
     throw new HttpException("Não autorizado", HttpStatus.UNAUTHORIZED);
   if (roles === ERoles.ROLE_Administrativo)
     return [
-      //toDO
+      "list-colaborador",
+      "delete-colaborador",
+      "update-colaborador",
+      "update-to-lider",
+      "create-adm",
+      "list-adm",
+      "delete-adm",
+      "update-adm",
+      "create-lider",
+      "list-lider",
+      "delete-lider",
+      "activate-lider",
+      "list-lider",
+      "update-lider",
     ];
 
   if (roles === ERoles.ROLE_Lider)

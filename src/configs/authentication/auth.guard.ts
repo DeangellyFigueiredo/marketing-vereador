@@ -24,7 +24,7 @@ export class RoleGuard implements CanActivate {
       context.getClass(),
     ]);
 
-    if (isPublic || process.env.MOCK_SERVER === "true") return true;
+    if (isPublic || process.env.NODE_ENV === "development") return true;
     const request = context.switchToHttp().getRequest<Request>();
     const headers = request.headers as any;
 

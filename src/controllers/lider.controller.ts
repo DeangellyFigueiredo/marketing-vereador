@@ -19,42 +19,43 @@ import { LiderService } from "src/services/lider.service";
 export class LiderController {
   constructor(private readonly liderService: LiderService) {}
 
+  @Roles("create-lider")
   @Post()
   async create(@Body() payload: CreateLiderDTO) {
     return await this.liderService.create(payload);
   }
 
-  @Roles("admin")
+  @Roles("list-lider")
   @Get()
   async findAll() {
     return await this.liderService.findAll();
   }
 
-  @Roles("admin")
+  @Roles("list-lider")
   @Get(":id")
   async findOneId(@Param("id") id: string) {
     return await this.liderService.findOneId(id);
   }
 
-  @Roles("admin")
+  @Roles("delete-lider")
   @Delete(":id")
   async delete(@Param("id") id: string) {
     return await this.liderService.delete(id);
   }
 
-  @Roles("admin")
+  @Roles("activate-lider")
   @Put("/reactivate/:id")
   async reactivate(@Param("id") id: string) {
     return await this.liderService.reactivate(id);
   }
 
-  @Roles("admin")
+  @Roles("list-lider")
   @Get("colaborador/:liderId")
   async findAllByLiderId(@Param("liderId") liderId: string) {
     return await this.liderService.findAllByLiderId(liderId);
   }
 
-  @Roles("admin")
+  @Roles("update-lider")
   @Put(":id")
   async update(@Param("id") id: string, payload: UpdateLiderDTO) {
     return await this.liderService.update(payload, id);

@@ -79,7 +79,6 @@ export class CreateColaboradorDTO {
   @ApiProperty()
   @IsString()
   @IsDefined()
-  @IsNotEmpty()
   @Transform(({ value }) => value.trim())
   latitude: string;
   @ApiProperty()

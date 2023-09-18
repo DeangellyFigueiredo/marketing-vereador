@@ -24,31 +24,31 @@ export class ColaboradorController {
     return await this.colaboradorService.create(payload);
   }
 
-  @Roles("admin")
+  @Roles("list-colaborador")
   @Get()
   async findAll() {
     return await this.colaboradorService.findAll();
   }
 
-  @Roles("admin")
+  @Roles("list-colaborador")
   @Get(":id")
-  async findOneId(@Param() id: string) {
+  async findOneId(@Param("id") id: string) {
     return await this.colaboradorService.findOneId(id);
   }
 
-  @Roles("admin")
+  @Roles("delete-colaborador")
   @Delete(":id")
-  async delete(@Param() id: string) {
+  async delete(@Param("id") id: string) {
     return await this.colaboradorService.delete(id);
   }
 
-  @Roles("admin")
+  @Roles("update-colaborador")
   @Put(":id")
-  async update(@Body() payload: UpdateColaboradorDTO, @Param() id: string) {
+  async update(@Body() payload: UpdateColaboradorDTO, @Param("id") id: string) {
     return await this.colaboradorService.update(payload, id);
   }
 
-  @Roles("admin")
+  @Roles("update-to-lider")
   @Put("lider/:id")
   async updateToLider(
     @Param("id") id: string,
