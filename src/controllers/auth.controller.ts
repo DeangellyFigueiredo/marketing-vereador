@@ -3,6 +3,7 @@ import { ApiTags } from "@nestjs/swagger";
 import { Public } from "src/decorators/public.decorator";
 import { AdmDTO } from "src/dtos/adm/authAdm.dto";
 import { TokenDTO } from "src/dtos/auth/token.dto";
+import { ColaboradorDTO } from "src/dtos/colaborador/colaborador.dto";
 import { AuthService } from "src/services/auth.service";
 
 @Controller("/api/auths")
@@ -14,6 +15,12 @@ export class AuthController {
   @Post("/login")
   async login(@Body() req: AdmDTO) {
     return this.authService.admLogin(req);
+  }
+
+  @Public()
+  @Post("/login/colaborador")
+  async loginColaborador(@Body() req: ColaboradorDTO) {
+    return this.authService.colaboradorLogin(req);
   }
 
   @Public()

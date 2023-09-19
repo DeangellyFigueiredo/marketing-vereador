@@ -7,7 +7,8 @@ import { LiderService } from "./lider.service";
 import { Lider } from "src/entities/lider.entity";
 import { AuthService } from "./auth.service";
 import { AdmService } from "./adm.service";
-
+import * as bcrypt from "bcrypt";
+import { FirstLoginDTO } from "src/dtos/adm/firstLogin.dto";
 @Injectable()
 export class ColaboradorService {
   constructor(
@@ -68,6 +69,10 @@ export class ColaboradorService {
     return await this.colaboradorRepository.findAllByLiderId(liderId);
   }
 
+  async findByEmail(email: string) {
+    return await this.colaboradorRepository.findByEmail(email);
+  }
+
   async updateToLider(id: string, token: string) {
     let adm;
     if (process.env.NODE_ENV === "production") {
@@ -93,5 +98,57 @@ export class ColaboradorService {
     return {
       message: "Colaborador atualizado para Líder com sucesso!",
     };
+  }
+
+  async updateToColaboradorCadastro(id: string, token: string) {
+    let adm;
+    if (process.env.NODE_ENV === "production") {
+      const tokenExtracted = await this.authService.decodeJWT(token);
+      adm = await this.admService.findOneId(tokenExtracted.sub.id);
+      if (!adm) {
+        throw new HttpException("Administrador não encontrado!", 404);
+      }
+    }
+    const colaborador = await this.colaboradorRepository.findOneId(id);
+    const password = bcrypt.hashSync(
+      colaborador.nome.substring(0, 3) + colaborador.cpf.substring(0, 3),
+      10
+    );
+    await this.colaboradorRepository.update(
+      {
+        usuarioDeCadastro: true,
+        password,
+      },
+      id
+    );
+    return {
+      message:
+        "Colaborador atualizado para Colaborador de Cadastro com sucesso!",
+    };
+  }
+
+  async firstLogin(payload: FirstLoginDTO, token: string) {
+    const tokenExtracted = await this.authService.decodeJWT(token);
+    const colaborador = await this.colaboradorRepository.findOneId(
+      tokenExtracted.sub.id
+    );
+    if (!colaborador)
+      throw new HttpException("Colaborador não encontrado!", 404);
+
+    if (!colaborador.firstLogin)
+      throw new HttpException("Colaborador já realizou o primeiro login!", 400);
+
+    const password = bcrypt.hashSync(payload.password, 10);
+    await this.colaboradorRepository.update(
+      {
+        password,
+        firstLogin: false,
+      },
+      colaborador.id
+    );
+    return this.authService.colaboradorLogin({
+      email: colaborador.email,
+      password: payload.password,
+    });
   }
 }

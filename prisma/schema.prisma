@@ -22,35 +22,38 @@ model Adm {
 }
 
 model Colaborador {
-  id              String    @id @default(cuid())
-  nome            String
-  idade           Int
-  rua             String
-  numeroCasa      String
-  bairro          String
-  telefone        String
-  email           String    @unique
-  profissao       String
-  escolaridade    String
-  redesSociais    String
-  cep             String
-  latitude        String?   @default("")
-  longitude       String?   @default("")
-  dataNascimento  DateTime
-  rg              String    @unique
-  orgaoExpedidor  String
-  cpf             String    @unique
-  tituloEleitor   String
-  zona            String
-  secao           String
-  recebeBeneficio Boolean
-  faixaSalarial   String
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  deletedAt       DateTime?
-  Adm             Adm?      @relation(fields: [admId], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  admId           String?
-  liderId         String?
+  id                String    @id @default(cuid())
+  nome              String
+  idade             Int
+  rua               String
+  numeroCasa        String
+  bairro            String
+  telefone          String
+  email             String    @unique
+  profissao         String
+  escolaridade      String
+  redesSociais      String
+  cep               String
+  latitude          String?   @default("")
+  longitude         String?   @default("")
+  dataNascimento    DateTime
+  rg                String    @unique
+  orgaoExpedidor    String
+  cpf               String    @unique
+  tituloEleitor     String
+  zona              String
+  secao             String
+  recebeBeneficio   Boolean
+  faixaSalarial     String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  deletedAt         DateTime?
+  Adm               Adm?      @relation(fields: [admId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  admId             String?
+  liderId           String?
+  usuarioDeCadastro Boolean   @default(false)
+  password          String?   @default("")
+  firstLogin        Boolean   @default(true)
 }
 
 model Lider {

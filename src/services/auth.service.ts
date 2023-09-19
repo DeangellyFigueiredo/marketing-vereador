@@ -13,13 +13,17 @@ import { ERoles } from "src/utils/ETypes";
 import { TokenDTO } from "src/dtos/auth/token.dto";
 import { AdmService } from "./adm.service";
 import { AdmDTO } from "src/dtos/adm/authAdm.dto";
+import { ColaboradorDTO } from "src/dtos/colaborador/colaborador.dto";
+import { ColaboradorService } from "./colaborador.service";
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
     @Inject(forwardRef(() => AdmService))
-    private admService: AdmService
+    private admService: AdmService,
+    @Inject(forwardRef(() => ColaboradorService))
+    private colaboradorService: ColaboradorService
   ) {}
   async validateUser(login: string, pass: string): Promise<any> {
     const user = await this.admService.findOne(login);
@@ -133,5 +137,36 @@ export class AuthService {
     } = user;
 
     return { ...result, token };
+  }
+
+  async colaboradorLogin(data: ColaboradorDTO): Promise<any> {
+    const user = await this.colaboradorService.findByEmail(data.email);
+    if (!user)
+      throw new HttpException(
+        "E-mail ou senha inválido",
+        HttpStatus.UNAUTHORIZED
+      );
+
+    const isValidPassword = bcrypt.compareSync(data.password, user.password);
+
+    if (!isValidPassword)
+      throw new HttpException(
+        "E-mail ou senha inválido",
+        HttpStatus.UNAUTHORIZED
+      );
+
+    const token = this.generateToken(
+      1 * 1000 * 60 * 60,
+      user.firstLogin
+        ? { id: user.id, role: ERoles.ROLE_PrimeiroLogin }
+        : {
+            id: user.id,
+            role: ERoles.ROLE_ColaboradorCadastro,
+          }
+    );
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
+    return { token };
   }
 }

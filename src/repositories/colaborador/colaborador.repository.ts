@@ -106,4 +106,12 @@ export class ColaboradorRepository
       },
     });
   }
+
+  async findByEmail(email: string): Promise<Colaborador> {
+    return await this.repository.colaborador.findUnique({
+      where: {
+        email,
+      },
+    });
+  }
 }

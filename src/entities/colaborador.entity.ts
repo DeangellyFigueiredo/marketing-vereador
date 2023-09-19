@@ -28,6 +28,9 @@ export class Colaborador {
   adm?: Adm;
   admId?: string | null;
   liderId?: string | null;
+  usuarioDeCadastro: boolean;
+  password: string;
+  firstLogin: boolean;
   createdAt: Date;
   updatedAt?: Date;
   deletedAt?: Date;
@@ -42,6 +45,9 @@ export class Colaborador {
       | "liderId"
       | "admId"
       | "adm"
+      | "firstLogin"
+      | "usuarioDeCadastro"
+      | "password"
     >,
     id?: string
   ) {

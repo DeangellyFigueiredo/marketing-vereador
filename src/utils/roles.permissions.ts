@@ -29,5 +29,6 @@ export const setPermissions = (roles: ERoles) => {
       //TODO
     ];
 
+  if (roles === ERoles.ROLE_ColaboradorCadastro) return ["create-colaborador"];
   if (roles === ERoles.ROLE_PrimeiroLogin) return ["first-login"];
 };
