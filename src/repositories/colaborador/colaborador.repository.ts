@@ -76,6 +76,9 @@ export class ColaboradorRepository
       where: {
         deletedAt: null,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
   }
 
@@ -96,6 +99,10 @@ export class ColaboradorRepository
         nome: true,
         cpf: true,
         createdAt: true,
+      },
+
+      orderBy: {
+        createdAt: "desc",
       },
     });
   }

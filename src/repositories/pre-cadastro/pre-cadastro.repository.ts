@@ -28,7 +28,11 @@ export class PreCadastroRepository
   }
 
   async findAll(): Promise<Partial<PreCadastro>[]> {
-    return await this.repository.preCadastro.findMany();
+    return await this.repository.preCadastro.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
   }
 
   async delete(id: string): Promise<any> {

@@ -70,6 +70,9 @@ export class AdmRepository extends Pageable<Adm> implements IAdmRepository {
         name: true,
         email: true,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
   }
 

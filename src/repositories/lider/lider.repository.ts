@@ -33,7 +33,6 @@ export class LiderRepository
     });
   }
   async create(payload: Lider): Promise<Lider> {
-    console.log(payload);
     const data = {
       id: payload.id,
       nome: payload.nome,
@@ -80,6 +79,10 @@ export class LiderRepository
         id: true,
         nome: true,
         email: true,
+      },
+
+      orderBy: {
+        createdAt: "desc",
       },
     });
   }
