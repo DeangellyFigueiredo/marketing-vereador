@@ -20,6 +20,8 @@ export const setPermissions = (roles: ERoles) => {
       "activate-lider",
       "list-lider",
       "update-lider",
+      "list-pre-cadastro",
+      "delete-pre-cadastro",
     ];
 
   if (roles === ERoles.ROLE_Lider)

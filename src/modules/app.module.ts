@@ -7,6 +7,7 @@ import { AdmModule } from "./adm.module";
 import { RepositoryModule } from "./repository.module";
 import { ColaboradorModule } from "./colaborador.module";
 import { LiderModule } from "./lider.module";
+import { PreCadastroModule } from "./pre-cadastro.module";
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { LiderModule } from "./lider.module";
     RepositoryModule,
     ColaboradorModule,
     LiderModule,
+    PreCadastroModule,
   ],
 })
 export class AppModule {}

@@ -84,3 +84,10 @@ model Lider {
   Adm             Adm?      @relation(fields: [admId], references: [id])
   admId           String?
 }
+
+model PreCadastro {
+  id        String   @id @default(cuid())
+  nome      String
+  numero    String
+  createdAt DateTime @default(now())
+}
