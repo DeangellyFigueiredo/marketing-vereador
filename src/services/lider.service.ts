@@ -24,7 +24,10 @@ export class LiderService {
     }
 
     try {
-      await this.liderRepository.create(new Lider({ ...payload }, adm.id));
+      await this.liderRepository.create(
+        new Lider({ ...payload }, adm.id),
+        adm.id
+      );
     } catch (error) {
       if (error.code === "P2002") {
         throw new HttpException(
@@ -32,6 +35,7 @@ export class LiderService {
           400
         );
       }
+      throw new HttpException("Erro ao criar Líder!", 400);
     }
     return {
       message: "Líder criado com sucesso!",

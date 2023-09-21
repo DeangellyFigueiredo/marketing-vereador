@@ -5,7 +5,7 @@ import { UpdateColaboradorDTO } from "src/dtos/colaborador/updateColaborador.dto
 import { Colaborador } from "src/entities/colaborador.entity";
 import { getDateInLocaleTime } from "src/utils/date.service";
 import IColaboradorRepository from "./colaborador.repository.contract";
-
+import { v4 as uuid } from "uuid";
 @Injectable()
 export class ColaboradorRepository
   extends Pageable<Colaborador>
@@ -20,6 +20,9 @@ export class ColaboradorRepository
       where: {
         id,
       },
+      include: {
+        role: true,
+      },
     });
   }
   async update(data: UpdateColaboradorDTO, id: string): Promise<Colaborador> {
@@ -30,9 +33,17 @@ export class ColaboradorRepository
       data: {
         ...data,
       },
+      include: {
+        role: true,
+      },
     });
   }
-  async create(payload: Colaborador): Promise<Colaborador> {
+  async create(
+    payload: Colaborador,
+    admId?: string,
+    liderId?: string,
+    recrutadorId?: string
+  ): Promise<any> {
     const data = {
       id: payload.id,
       nome: payload.nome,
@@ -57,19 +68,38 @@ export class ColaboradorRepository
       secao: payload.secao,
       recebeBeneficio: payload.recebeBeneficio,
       faixaSalarial: payload.faixaSalarial,
-      liderId: payload.liderId,
-      ...(payload.admId !== null &&
-        payload.admId !== undefined && {
-          Adm: {
-            connect: {
-              id: payload.admId,
+    };
+    const relation = {
+      ...(admId && {
+        admId: admId,
+      }),
+      ...(liderId && {
+        liderId: liderId,
+      }),
+      ...(recrutadorId && {
+        recrutadorId: recrutadorId,
+      }),
+    };
+    const register = await this.repository.recrutador.create({
+      data: {
+        id: uuid(),
+        colaborador: {
+          create: {
+            ...data,
+            role: {
+              connect: {
+                name: "Colaborador-Comum",
+              },
             },
           },
-        }),
-    };
-    return await this.repository.colaborador.create({
-      data: { ...data },
+        },
+        ...relation,
+      },
+      include: {
+        colaborador: true,
+      },
     });
+    return register.colaborador;
   }
   async findAll(): Promise<Partial<Colaborador>[]> {
     return await this.repository.colaborador.findMany({
@@ -91,7 +121,7 @@ export class ColaboradorRepository
   }
 
   async findAllByLiderId(liderId: string): Promise<Partial<Colaborador>[]> {
-    return await this.repository.colaborador.findMany({
+    return; /* await this.repository.colaborador.findMany({
       where: {
         liderId: liderId,
       },
@@ -104,13 +134,16 @@ export class ColaboradorRepository
       orderBy: {
         createdAt: "desc",
       },
-    });
+    }); */
   }
 
   async findByEmail(email: string): Promise<Colaborador> {
     return await this.repository.colaborador.findUnique({
       where: {
         email,
+      },
+      include: {
+        role: true,
       },
     });
   }

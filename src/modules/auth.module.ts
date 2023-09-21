@@ -5,10 +5,12 @@ import { RoleGuard } from "src/configs/authentication/auth.guard";
 import { AuthService } from "src/services/auth.service";
 import { AuthController } from "src/controllers/auth.controller";
 import { AdmModule } from "./adm.module";
+import { ColaboradorModule } from "./colaborador.module";
 
 @Module({
   imports: [
     forwardRef(() => AdmModule),
+    forwardRef(() => ColaboradorModule),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: "60s" },

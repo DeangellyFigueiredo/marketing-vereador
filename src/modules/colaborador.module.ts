@@ -16,6 +16,6 @@ import { AdmModule } from "./adm.module";
   ],
   controllers: [ColaboradorController],
   exports: [ColaboradorService],
-  imports: [LiderModule, AuthModule, AdmModule],
+  imports: [LiderModule, forwardRef(() => AuthModule), AdmModule],
 })
 export class ColaboradorModule {}

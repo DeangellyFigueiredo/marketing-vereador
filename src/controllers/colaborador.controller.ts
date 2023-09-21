@@ -9,6 +9,7 @@ import {
   Headers,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
+import { Public } from "src/decorators/public.decorator";
 import { Roles } from "src/decorators/roles.decorator";
 import { FirstLoginDTO } from "src/dtos/adm/firstLogin.dto";
 import { CreateColaboradorDTO } from "src/dtos/colaborador/createColaborador.dto";
@@ -20,6 +21,7 @@ import { ColaboradorService } from "src/services/colaborador.service";
 export class ColaboradorController {
   constructor(private readonly colaboradorService: ColaboradorService) {}
 
+  @Public()
   @Post()
   async create(@Body() payload: CreateColaboradorDTO) {
     return await this.colaboradorService.create(payload);

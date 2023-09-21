@@ -148,4 +148,10 @@ export class CreateColaboradorDTO {
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
   liderId?: string;
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  @IsNotEmpty()
+  @Transform(({ value }) => value.trim())
+  recrutadorId?: string;
 }

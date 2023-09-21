@@ -9,83 +9,49 @@ generator client {
 }
 
 model Adm {
-  id          String        @id @default(cuid())
-  email       String        @unique
-  name        String?
-  cpf         String        @unique
-  password    String
-  lider       Lider[]
-  colaborador Colaborador[]
-  firstLogin  Boolean       @default(true)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  id         String   @id @default(cuid())
+  email      String   @unique
+  name       String?
+  cpf        String   @unique
+  password   String
+  firstLogin Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Colaborador {
-  id                String    @id @default(cuid())
-  nome              String
-  idade             Int
-  rua               String
-  numeroCasa        String
-  bairro            String
-  telefone          String
-  email             String    @unique
-  profissao         String
-  escolaridade      String
-  redesSociais      String
-  cep               String
-  latitude          String?   @default("")
-  longitude         String?   @default("")
-  dataNascimento    DateTime
-  rg                String    @unique
-  orgaoExpedidor    String
-  cpf               String    @unique
-  tituloEleitor     String
-  zona              String
-  secao             String
-  recebeBeneficio   Boolean
-  faixaSalarial     String
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
-  deletedAt         DateTime?
-  Adm               Adm?      @relation(fields: [admId], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  admId             String?
-  liderId           String?
-  usuarioDeCadastro Boolean   @default(false)
-  password          String?   @default("")
-  firstLogin        Boolean   @default(true)
-}
-
-model Lider {
-  id              String    @id @default(cuid())
+  id              String      @id @default(cuid())
   nome            String
   idade           Int
   rua             String
   numeroCasa      String
   bairro          String
   telefone        String
-  email           String
+  email           String      @unique
   profissao       String
   escolaridade    String
   redesSociais    String
   cep             String
-  latitude        String?   @default("")
-  longitude       String?   @default("")
+  latitude        String?     @default("")
+  longitude       String?     @default("")
   dataNascimento  DateTime
-  rg              String
+  rg              String      @unique
   orgaoExpedidor  String
-  cpf             String
+  cpf             String      @unique
   tituloEleitor   String
   zona            String
   secao           String
   recebeBeneficio Boolean
   faixaSalarial   String
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime? @updatedAt
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
   deletedAt       DateTime?
-  liderId         String?
-  Adm             Adm?      @relation(fields: [admId], references: [id])
-  admId           String?
+  password        String?     @default("")
+  firstLogin      Boolean     @default(true)
+  roleId          String?
+  role            Role?       @relation(fields: [roleId], references: [id])
+  Recrutador      Recrutador? @relation(fields: [recrutadorId], references: [id])
+  recrutadorId    String?
 }
 
 model PreCadastro {
@@ -93,4 +59,21 @@ model PreCadastro {
   nome      String
   numero    String
   createdAt DateTime @default(now())
+}
+
+model Role {
+  id          String        @id @default(uuid())
+  name        String        @unique
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  Colaborador Colaborador[]
+}
+
+model Recrutador {
+  id           String        @id @unique
+  recrutadorId String?
+  liderId      String?
+  admId        String?
+  colaborador  Colaborador[]
+  createdAt    DateTime      @default(now())
 }

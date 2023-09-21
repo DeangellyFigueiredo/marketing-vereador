@@ -24,7 +24,12 @@ export class ColaboradorService {
 
   async create(payload: CreateColaboradorDTO) {
     try {
-      await this.colaboradorRepository.create(new Colaborador({ ...payload }));
+      await this.colaboradorRepository.create(
+        new Colaborador({ ...payload }),
+        payload.admId,
+        payload.liderId,
+        payload.recrutadorId
+      );
     } catch (error) {
       if (error.code === "P2002") {
         throw new HttpException(
@@ -32,6 +37,7 @@ export class ColaboradorService {
           400
         );
       }
+      throw new HttpException("Erro ao criar colaborador!", 400);
     }
     return {
       message: "Colaborador criado com sucesso!",

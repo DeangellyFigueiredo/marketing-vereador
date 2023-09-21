@@ -1,4 +1,4 @@
-import { Adm } from "./adm.entity";
+import { Role } from "@prisma/client";
 import { v4 as uuid } from "uuid";
 
 export class Colaborador {
@@ -25,12 +25,9 @@ export class Colaborador {
   secao: string;
   recebeBeneficio: boolean;
   faixaSalarial: string;
-  adm?: Adm;
-  admId?: string | null;
-  liderId?: string | null;
-  usuarioDeCadastro: boolean;
   password: string;
   firstLogin: boolean;
+  role: Role;
   createdAt: Date;
   updatedAt?: Date;
   deletedAt?: Date;
@@ -38,20 +35,19 @@ export class Colaborador {
   constructor(
     props: Omit<
       Colaborador,
+      | "role"
       | "id"
       | "createdAt"
       | "updatedAt"
       | "deletedAt"
-      | "liderId"
-      | "admId"
-      | "adm"
       | "firstLogin"
-      | "usuarioDeCadastro"
       | "password"
     >,
+    role?: Role,
     id?: string
   ) {
     Object.assign(this, props);
+    this.role = role;
     this.id = id ?? uuid();
   }
 }

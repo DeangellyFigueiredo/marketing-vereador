@@ -5,7 +5,7 @@ import { UpdateLiderDTO } from "src/dtos/lider/updateLider.dto";
 import { getDateInLocaleTime } from "src/utils/date.service";
 import ILiderRepository from "./lider.repository.contract";
 import { Lider } from "src/entities/lider.entity";
-
+import { v4 as uuid } from "uuid";
 @Injectable()
 export class LiderRepository
   extends Pageable<Lider>
@@ -16,14 +16,14 @@ export class LiderRepository
   }
 
   async findOneId(id: string): Promise<Lider> {
-    return await this.repository.lider.findUnique({
+    return await this.repository.colaborador.findUnique({
       where: {
         id: id,
       },
     });
   }
   async update(data: UpdateLiderDTO, id: string): Promise<Lider> {
-    return await this.repository.lider.update({
+    return await this.repository.colaborador.update({
       where: {
         id: id,
       },
@@ -32,7 +32,7 @@ export class LiderRepository
       },
     });
   }
-  async create(payload: Lider): Promise<Lider> {
+  async create(payload: Lider, admId: string): Promise<any> {
     const data = {
       id: payload.id,
       nome: payload.nome,
@@ -57,38 +57,50 @@ export class LiderRepository
       secao: payload.secao,
       recebeBeneficio: payload.recebeBeneficio,
       faixaSalarial: payload.faixaSalarial,
-      liderId: payload.liderId,
-      ...(payload.admId !== null &&
-        payload.admId !== undefined && {
-          Adm: {
-            connect: {
-              id: payload.admId,
-            },
-          },
-        }),
     };
 
-    console.log(data);
-    return await this.repository.lider.create({
-      data: { ...data },
+    const register = await this.repository.recrutador.create({
+      data: {
+        id: uuid(),
+        colaborador: {
+          create: {
+            ...data,
+            role: {
+              connect: {
+                name: "Lider",
+              },
+            },
+          },
+        },
+        admId: admId,
+      },
+      include: {
+        colaborador: true,
+      },
     });
+    return register.colaborador;
   }
   async findAll(): Promise<Partial<Lider>[]> {
-    return await this.repository.lider.findMany({
+    return await this.repository.colaborador.findMany({
+      where: {
+        role: {
+          name: "Lider",
+        },
+        deletedAt: null,
+      },
       select: {
         id: true,
         nome: true,
         email: true,
       },
-
       orderBy: {
-        createdAt: "desc",
+        nome: "desc",
       },
     });
   }
 
   async delete(id: string): Promise<any> {
-    return await this.repository.lider.update({
+    return await this.repository.colaborador.update({
       where: {
         id: id,
       },
@@ -99,7 +111,7 @@ export class LiderRepository
   }
 
   async reactivate(id: string): Promise<any> {
-    return await this.repository.lider.update({
+    return await this.repository.colaborador.update({
       where: {
         id: id,
       },
