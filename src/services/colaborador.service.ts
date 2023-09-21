@@ -92,15 +92,17 @@ export class ColaboradorService {
     if (!colaborador) {
       throw new HttpException("Colaborador não encontrado!", 404);
     }
-
-    const lider: Lider = new Lider(
-      {
-        ...colaborador,
-      },
-      ...(adm ? [adm.id] : [])
+    const password = bcrypt.hashSync(
+      colaborador.nome.substring(0, 3) + colaborador.cpf.substring(0, 3),
+      10
     );
-    await this.liderService.create(lider);
-    await this.colaboradorRepository.delete(id);
+    await this.colaboradorRepository.update(
+      {
+        password,
+      },
+      id,
+      "Lider"
+    );
     return {
       message: "Colaborador atualizado para Líder com sucesso!",
     };
@@ -122,10 +124,10 @@ export class ColaboradorService {
     );
     await this.colaboradorRepository.update(
       {
-        usuarioDeCadastro: true,
         password,
       },
-      id
+      id,
+      "Colaborador-Cadastro"
     );
     return {
       message:

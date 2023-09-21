@@ -25,14 +25,26 @@ export class ColaboradorRepository
       },
     });
   }
-  async update(data: UpdateColaboradorDTO, id: string): Promise<Colaborador> {
+  async update(
+    payload: UpdateColaboradorDTO,
+    id: string,
+    role?: string
+  ): Promise<Colaborador> {
+    const data = {
+      ...payload,
+      ...(role && {
+        role: {
+          connect: {
+            name: role,
+          },
+        },
+      }),
+    };
     return await this.repository.colaborador.update({
       where: {
         id,
       },
-      data: {
-        ...data,
-      },
+      data: { ...data },
       include: {
         role: true,
       },

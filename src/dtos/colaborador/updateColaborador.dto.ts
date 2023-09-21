@@ -48,8 +48,6 @@ export class UpdateColaboradorDTO {
   @IsOptional()
   faixaSalarial?: string;
   @IsOptional()
-  usuarioDeCadastro?: boolean;
-  @IsOptional()
   password?: string;
   @IsOptional()
   firstLogin?: boolean;

@@ -25,23 +25,15 @@ export class Lider {
   secao: string;
   recebeBeneficio: boolean;
   faixaSalarial: string;
-  liderId?: string | null;
-  adm?: Adm;
-  admId?: string | null;
   createdAt: Date;
   updatedAt?: Date | null;
   deletedAt?: Date | null;
 
   constructor(
-    props: Omit<
-      Lider,
-      "id" | "createdAt" | "updatedAt" | "deletedAt" | "admId" | "adm"
-    >,
-    admId?: string,
+    props: Omit<Lider, "id" | "createdAt" | "updatedAt" | "deletedAt">,
     id?: string
   ) {
     Object.assign(this, props);
-    this.admId = admId;
     this.id = id ?? uuid();
   }
 }
