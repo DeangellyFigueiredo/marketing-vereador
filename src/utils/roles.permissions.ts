@@ -22,6 +22,7 @@ export const setPermissions = (roles: ERoles) => {
       "update-lider",
       "list-pre-cadastro",
       "delete-pre-cadastro",
+      "update-to-colaborador-cadastro",
     ];
 
   if (roles === ERoles.ROLE_Lider)

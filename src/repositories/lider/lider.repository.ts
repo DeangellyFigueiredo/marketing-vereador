@@ -16,9 +16,13 @@ export class LiderRepository
   }
 
   async findOneId(id: string): Promise<Lider> {
-    return await this.repository.colaborador.findUnique({
+    return await this.repository.colaborador.findFirst({
       where: {
         id: id,
+        deletedAt: null,
+        role: {
+          name: "Lider",
+        },
       },
     });
   }

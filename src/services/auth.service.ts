@@ -161,7 +161,7 @@ export class AuthService {
         ? { id: user.id, role: ERoles.ROLE_PrimeiroLogin }
         : {
             id: user.id,
-            role: ERoles.ROLE_ColaboradorCadastro,
+            role: user.role.name,
           }
     );
 

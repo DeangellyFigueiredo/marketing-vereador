@@ -10,6 +10,7 @@ import {
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { Roles } from "src/decorators/roles.decorator";
+import { CreateColaboradorDTO } from "src/dtos/colaborador/createColaborador.dto";
 import { CreateLiderDTO } from "src/dtos/lider/createLider.dto";
 import { UpdateLiderDTO } from "src/dtos/lider/updateLider.dto";
 import { LiderService } from "src/services/lider.service";
@@ -23,6 +24,14 @@ export class LiderController {
   @Post()
   async create(@Body() payload: CreateLiderDTO) {
     return await this.liderService.create(payload);
+  }
+
+  @Post("/vinculate/:id")
+  async createByLider(
+    @Body() payload: CreateColaboradorDTO,
+    @Param("id") id: string
+  ) {
+    return await this.liderService.createByLider(payload, id);
   }
 
   @Roles("list-lider")

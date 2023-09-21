@@ -1,4 +1,4 @@
-import { Role } from "@prisma/client";
+import { Recrutador, Role } from "@prisma/client";
 import { v4 as uuid } from "uuid";
 
 export class Colaborador {
@@ -28,6 +28,7 @@ export class Colaborador {
   password: string;
   firstLogin: boolean;
   role: Role;
+  Recrutador: Recrutador;
   createdAt: Date;
   updatedAt?: Date;
   deletedAt?: Date;
@@ -42,6 +43,7 @@ export class Colaborador {
       | "deletedAt"
       | "firstLogin"
       | "password"
+      | "Recrutador"
     >,
     role?: Role,
     id?: string

@@ -46,6 +46,8 @@ export class RoleGuard implements CanActivate {
     if (!requiredRoles) {
       return true;
     }
+    console.log(user);
+    console.log(requiredRoles);
     if (!requiredRoles.some((role) => user.permissions?.includes(role))) {
       throw new HttpException(
         "Usuário não autorizado para acessar este recurso!",

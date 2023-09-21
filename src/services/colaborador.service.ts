@@ -4,7 +4,6 @@ import { UpdateColaboradorDTO } from "src/dtos/colaborador/updateColaborador.dto
 import { Colaborador } from "src/entities/colaborador.entity";
 import { ColaboradorRepository } from "src/repositories/colaborador/colaborador.repository";
 import { LiderService } from "./lider.service";
-import { Lider } from "src/entities/lider.entity";
 import { AuthService } from "./auth.service";
 import { AdmService } from "./adm.service";
 import * as bcrypt from "bcrypt";
@@ -22,7 +21,23 @@ export class ColaboradorService {
     private readonly admService: AdmService
   ) {}
 
-  async create(payload: CreateColaboradorDTO) {
+  async create(payload: CreateColaboradorDTO, token?: string) {
+    if (token) {
+      const tokenExtracted = await this.authService.decodeJWT(token);
+      if (tokenExtracted.sub.role === "Colaborador-Cadastro") {
+        const user = await this.colaboradorRepository.findOneId(
+          tokenExtracted.sub.id
+        );
+        if (!user) {
+          throw new HttpException("Usuário não encontrado!", 404);
+        }
+        payload.recrutadorId = tokenExtracted.sub.id;
+        if (user.Recrutador.liderId !== null)
+          payload.liderId = user.Recrutador.liderId;
+      }
+      if (tokenExtracted.sub.role === "Administrativo")
+        payload.admId = tokenExtracted.sub.id;
+    }
     try {
       await this.colaboradorRepository.create(
         new Colaborador({ ...payload }),

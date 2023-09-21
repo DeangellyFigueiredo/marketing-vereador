@@ -22,6 +22,7 @@ export class ColaboradorRepository
       },
       include: {
         role: true,
+        Recrutador: true,
       },
     });
   }
@@ -47,6 +48,7 @@ export class ColaboradorRepository
       data: { ...data },
       include: {
         role: true,
+        Recrutador: true,
       },
     });
   }
@@ -156,6 +158,7 @@ export class ColaboradorRepository
       },
       include: {
         role: true,
+        Recrutador: true,
       },
     });
   }

@@ -9,6 +9,7 @@ import {
   Headers,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
+import { Console } from "console";
 import { Public } from "src/decorators/public.decorator";
 import { Roles } from "src/decorators/roles.decorator";
 import { FirstLoginDTO } from "src/dtos/adm/firstLogin.dto";
@@ -23,8 +24,11 @@ export class ColaboradorController {
 
   @Public()
   @Post()
-  async create(@Body() payload: CreateColaboradorDTO) {
-    return await this.colaboradorService.create(payload);
+  async create(
+    @Body() payload: CreateColaboradorDTO,
+    @Headers("authorization") token: string
+  ) {
+    return await this.colaboradorService.create(payload, token);
   }
 
   @Roles("list-colaborador")
@@ -46,7 +50,7 @@ export class ColaboradorController {
   }
 
   @Roles("update-colaborador")
-  @Put(":id")
+  @Put("/update/:id")
   async update(@Body() payload: UpdateColaboradorDTO, @Param("id") id: string) {
     return await this.colaboradorService.update(payload, id);
   }
@@ -75,6 +79,7 @@ export class ColaboradorController {
     @Body() payload: FirstLoginDTO,
     @Headers("authorization") token: string
   ) {
+    console.log(token);
     return await this.colaboradorService.firstLogin(payload, token);
   }
 }

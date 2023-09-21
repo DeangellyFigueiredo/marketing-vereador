@@ -5,6 +5,7 @@ import { Lider } from "src/entities/lider.entity";
 import { LiderRepository } from "src/repositories/lider/lider.repository";
 import { ColaboradorService } from "./colaborador.service";
 import { AdmService } from "./adm.service";
+import { CreateColaboradorDTO } from "src/dtos/colaborador/createColaborador.dto";
 
 @Injectable()
 export class LiderService {
@@ -39,6 +40,19 @@ export class LiderService {
     }
     return {
       message: "Líder criado com sucesso!",
+    };
+  }
+
+  async createByLider(payload: CreateColaboradorDTO, id: string) {
+    const lider = await this.liderRepository.findOneId(id);
+    if (!lider) {
+      throw new HttpException("Líder não encontrado!", 404);
+    }
+
+    await this.colaboradorService.create({ ...payload, liderId: lider.id });
+
+    return {
+      message: "Colaborador criado com sucesso!",
     };
   }
 

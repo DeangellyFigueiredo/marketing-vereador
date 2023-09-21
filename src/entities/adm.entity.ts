@@ -1,3 +1,4 @@
+import { Role } from "@prisma/client";
 import { v4 as uuid } from "uuid";
 
 export class Adm {
