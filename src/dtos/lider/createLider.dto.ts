@@ -134,11 +134,9 @@ export class CreateLiderDTO {
   @IsDefined()
   recebeBeneficio: boolean;
   @ApiProperty()
-  @IsString()
   @IsDefined()
   @IsNotEmpty()
-  @Transform(({ value }) => value.trim())
-  faixaSalarial: string;
+  faixaSalarial: number;
   @ApiProperty()
   @IsString()
   @IsNotEmpty()

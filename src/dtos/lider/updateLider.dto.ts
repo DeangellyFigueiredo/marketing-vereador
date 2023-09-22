@@ -58,5 +58,5 @@ export class UpdateLiderDTO {
   recebeBeneficio?: boolean;
   @ApiProperty()
   @IsOptional()
-  faixaSalarial?: string;
+  faixaSalarial?: number;
 }

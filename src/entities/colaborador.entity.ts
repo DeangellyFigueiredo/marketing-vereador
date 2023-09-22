@@ -24,7 +24,7 @@ export class Colaborador {
   zona: string;
   secao: string;
   recebeBeneficio: boolean;
-  faixaSalarial: string;
+  faixaSalarial: number;
   password: string;
   firstLogin: boolean;
   role: Role;

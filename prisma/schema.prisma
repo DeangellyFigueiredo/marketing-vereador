@@ -42,7 +42,7 @@ model Colaborador {
   zona            String
   secao           String
   recebeBeneficio Boolean
-  faixaSalarial   String
+  faixaSalarial   Int
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
   deletedAt       DateTime?

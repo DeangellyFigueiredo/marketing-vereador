@@ -24,7 +24,7 @@ export class Lider {
   zona: string;
   secao: string;
   recebeBeneficio: boolean;
-  faixaSalarial: string;
+  faixaSalarial: number;
   createdAt: Date;
   updatedAt?: Date | null;
   deletedAt?: Date | null;

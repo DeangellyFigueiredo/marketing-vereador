@@ -46,7 +46,7 @@ export class UpdateColaboradorDTO {
   recebeBeneficio?: boolean;
   @ApiProperty()
   @IsOptional()
-  faixaSalarial?: string;
+  faixaSalarial?: number;
   @IsOptional()
   password?: string;
   @IsOptional()

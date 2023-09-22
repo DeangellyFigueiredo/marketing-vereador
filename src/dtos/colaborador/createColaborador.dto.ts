@@ -135,7 +135,7 @@ export class CreateColaboradorDTO {
   @IsDefined()
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
-  faixaSalarial: string;
+  faixaSalarial: number;
   @ApiProperty()
   @IsString()
   @IsOptional()
