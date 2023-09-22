@@ -83,10 +83,6 @@ export class LiderService {
     return await this.liderRepository.update(data, id);
   }
 
-  async findAllByLiderId(liderId: string) {
-    return await this.colaboradorService.findAllByLiderId(liderId);
-  }
-
   async reactivate(id: string) {
     const Lider = await this.liderRepository.findOneId(id);
     if (!Lider) {

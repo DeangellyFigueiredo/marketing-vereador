@@ -8,6 +8,7 @@ import { AuthService } from "./auth.service";
 import { AdmService } from "./adm.service";
 import * as bcrypt from "bcrypt";
 import { FirstLoginDTO } from "src/dtos/adm/firstLogin.dto";
+import { FilterColaboradorDTO } from "src/dtos/colaborador/filterColaborador.dto";
 @Injectable()
 export class ColaboradorService {
   constructor(
@@ -59,8 +60,8 @@ export class ColaboradorService {
     };
   }
 
-  async findAll() {
-    return await this.colaboradorRepository.findAll();
+  async findAll(filter: FilterColaboradorDTO) {
+    return await this.colaboradorRepository.findAll(filter);
   }
 
   async delete(id: string) {
@@ -84,10 +85,6 @@ export class ColaboradorService {
       throw new HttpException("Colaborador não encontrado!", 404);
     }
     return await this.colaboradorRepository.update(data, id);
-  }
-
-  async findAllByLiderId(liderId: string) {
-    return await this.colaboradorRepository.findAllByLiderId(liderId);
   }
 
   async findByEmail(email: string) {
@@ -173,5 +170,17 @@ export class ColaboradorService {
       email: colaborador.email,
       password: payload.password,
     });
+  }
+
+  async findAllRecrutados(id: string, filter: FilterColaboradorDTO) {
+    const colaborador = await this.colaboradorRepository.findOneId(id);
+    const adm = await this.admService.findOneId(id);
+    if (!colaborador && !adm) {
+      throw new HttpException(
+        "Não foi encontrado colaboradores para esse ID",
+        404
+      );
+    }
+    return await this.colaboradorRepository.findAllRecrutados(id, filter);
   }
 }

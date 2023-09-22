@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   Headers,
+  Query,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { Console } from "console";
@@ -14,6 +15,7 @@ import { Public } from "src/decorators/public.decorator";
 import { Roles } from "src/decorators/roles.decorator";
 import { FirstLoginDTO } from "src/dtos/adm/firstLogin.dto";
 import { CreateColaboradorDTO } from "src/dtos/colaborador/createColaborador.dto";
+import { FilterColaboradorDTO } from "src/dtos/colaborador/filterColaborador.dto";
 import { UpdateColaboradorDTO } from "src/dtos/colaborador/updateColaborador.dto";
 import { ColaboradorService } from "src/services/colaborador.service";
 
@@ -33,8 +35,8 @@ export class ColaboradorController {
 
   @Roles("list-colaborador")
   @Get()
-  async findAll() {
-    return await this.colaboradorService.findAll();
+  async findAll(@Query() filter: FilterColaboradorDTO) {
+    return await this.colaboradorService.findAll(filter);
   }
 
   @Roles("list-colaborador")
@@ -79,7 +81,14 @@ export class ColaboradorController {
     @Body() payload: FirstLoginDTO,
     @Headers("authorization") token: string
   ) {
-    console.log(token);
     return await this.colaboradorService.firstLogin(payload, token);
+  }
+
+  @Get("all/recrutados/:id")
+  async findAllRecrutados(
+    @Param("id") id: string,
+    @Query() filter: FilterColaboradorDTO
+  ) {
+    return await this.colaboradorService.findAllRecrutados(id, filter);
   }
 }

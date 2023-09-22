@@ -58,12 +58,6 @@ export class LiderController {
     return await this.liderService.reactivate(id);
   }
 
-  @Roles("list-lider")
-  @Get("colaborador/:liderId")
-  async findAllByLiderId(@Param("liderId") liderId: string) {
-    return await this.liderService.findAllByLiderId(liderId);
-  }
-
   @Roles("update-lider")
   @Put(":id")
   async update(@Param("id") id: string, payload: UpdateLiderDTO) {

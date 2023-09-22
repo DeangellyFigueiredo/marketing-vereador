@@ -6,6 +6,7 @@ import { Colaborador } from "src/entities/colaborador.entity";
 import { getDateInLocaleTime } from "src/utils/date.service";
 import IColaboradorRepository from "./colaborador.repository.contract";
 import { v4 as uuid } from "uuid";
+import { FilterColaboradorDTO } from "src/dtos/colaborador/filterColaborador.dto";
 @Injectable()
 export class ColaboradorRepository
   extends Pageable<Colaborador>
@@ -115,10 +116,15 @@ export class ColaboradorRepository
     });
     return register.colaborador;
   }
-  async findAll(): Promise<Partial<Colaborador>[]> {
+  async findAll(filter: FilterColaboradorDTO): Promise<Partial<Colaborador>[]> {
     return await this.repository.colaborador.findMany({
       where: {
         deletedAt: null,
+        ...(filter.tipo && {
+          role: {
+            name: filter.tipo,
+          },
+        }),
       },
       orderBy: {
         createdAt: "desc",
@@ -134,21 +140,45 @@ export class ColaboradorRepository
     });
   }
 
-  async findAllByLiderId(liderId: string): Promise<Partial<Colaborador>[]> {
-    return; /* await this.repository.colaborador.findMany({
+  async findAllRecrutados(
+    id: string,
+    filter: FilterColaboradorDTO
+  ): Promise<Partial<Colaborador>[]> {
+    const recrutador = {
+      ...(filter.tipo === "Lider" && {
+        Recrutador: {
+          liderId: id,
+        },
+      }),
+      ...(filter.tipo === "Colaborador-Cadastro" && {
+        Recrutador: {
+          recrutadorId: id,
+        },
+      }),
+      ...(filter.tipo === "Administrativo" && {
+        Recrutador: {
+          admId: id,
+        },
+      }),
+    };
+
+    return await this.repository.colaborador.findMany({
       where: {
-        liderId: liderId,
+        ...recrutador,
+        deletedAt: null,
+        role: {
+          name: "Colaborador-Comum",
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
       },
       select: {
         nome: true,
         cpf: true,
         createdAt: true,
       },
-
-      orderBy: {
-        createdAt: "desc",
-      },
-    }); */
+    });
   }
 
   async findByEmail(email: string): Promise<Colaborador> {
