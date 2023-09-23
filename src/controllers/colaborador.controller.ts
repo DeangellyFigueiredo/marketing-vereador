@@ -95,7 +95,7 @@ export class ColaboradorController {
     return await this.colaboradorService.findAllRecrutados(id, filter);
   }
 
-  @Get("download/file/colaboradores")
+  @Get("download/file")
   @Public()
   @HttpCode(HttpStatus.OK)
   async exportsColaboradorFile(

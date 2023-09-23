@@ -12,6 +12,7 @@ export default interface IColaboradorRepository {
   findAll(filter: FilterColaboradorDTO): Promise<Partial<Colaborador>[]>;
   delete(id: string): Promise<Colaborador>;
   findOneId(id: string): Promise<Colaborador>;
+  findByIdToLogin(id: string): Promise<Colaborador>;
   update(data: UpdateColaboradorDTO, id: string): Promise<Colaborador>;
   findAllRecrutados(
     id: string,

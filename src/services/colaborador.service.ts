@@ -159,7 +159,7 @@ export class ColaboradorService {
 
   async firstLogin(payload: FirstLoginDTO, token: string) {
     const tokenExtracted = await this.authService.decodeJWT(token);
-    const colaborador = await this.colaboradorRepository.findOneId(
+    const colaborador = await this.colaboradorRepository.findByIdToLogin(
       tokenExtracted.sub.id
     );
     if (!colaborador)

@@ -27,6 +27,21 @@ export class ColaboradorRepository
       },
     });
   }
+
+  async findByIdToLogin(id: string): Promise<Colaborador> {
+    return await this.repository.colaborador.findFirst({
+      where: {
+        id,
+        role: {
+          name: "Lider" || "Colaborador-Cadastro",
+        },
+      },
+      include: {
+        role: true,
+        Recrutador: true,
+      },
+    });
+  }
   async update(
     payload: UpdateColaboradorDTO,
     id: string,
@@ -182,9 +197,12 @@ export class ColaboradorRepository
   }
 
   async findByEmail(email: string): Promise<Colaborador> {
-    return await this.repository.colaborador.findUnique({
+    return await this.repository.colaborador.findFirst({
       where: {
         email,
+        role: {
+          name: "Lider" || "Colaborador-Cadastro",
+        },
       },
       include: {
         role: true,
