@@ -84,7 +84,7 @@ export class LiderService {
   }
 
   async reactivate(id: string) {
-    const Lider = await this.liderRepository.findOneId(id);
+    const Lider = await this.liderRepository.findOneToReactive(id);
     if (!Lider) {
       throw new HttpException("Líder não encontrado!", 404);
     }

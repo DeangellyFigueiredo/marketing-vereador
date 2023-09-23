@@ -7,4 +7,5 @@ export default interface ILiderRepository {
   delete(id: string): Promise<Lider>;
   findOneId(id: string): Promise<Lider>;
   update(data: UpdateLiderDTO, id: string): Promise<Lider>;
+  findOneToReactive(id: string): Promise<Lider>;
 }

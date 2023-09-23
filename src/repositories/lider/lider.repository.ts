@@ -26,6 +26,20 @@ export class LiderRepository
       },
     });
   }
+
+  async findOneToReactive(id: string): Promise<Lider> {
+    return await this.repository.colaborador.findFirst({
+      where: {
+        id: id,
+        deletedAt: {
+          not: null,
+        },
+        role: {
+          name: "Lider",
+        },
+      },
+    });
+  }
   async update(data: UpdateLiderDTO, id: string): Promise<Lider> {
     return await this.repository.colaborador.update({
       where: {

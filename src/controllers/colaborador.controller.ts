@@ -69,6 +69,15 @@ export class ColaboradorController {
     return await this.colaboradorService.updateToLider(id, token);
   }
 
+  @Roles("update-to-colaborador")
+  @Put("colaborador/:id")
+  async updateToColaborador(
+    @Param("id") id: string,
+    @Headers("authorization") token: string
+  ) {
+    return await this.colaboradorService.updateToColaborador(id, token);
+  }
+
   @Roles("update-to-colaborador-cadastro")
   @Put("colaborador-cadastro/:id")
   async updateToColaboradorCadastro(

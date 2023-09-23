@@ -130,6 +130,28 @@ export class ColaboradorService {
     };
   }
 
+  async updateToColaborador(id: string, token: string) {
+    let adm;
+    if (process.env.NODE_ENV === "production") {
+      const tokenExtracted = await this.authService.decodeJWT(token);
+      adm = await this.admService.findOneId(tokenExtracted.sub.id);
+      if (!adm) {
+        throw new HttpException("Administrador não encontrado!", 404);
+      }
+    }
+    const colaborador = await this.colaboradorRepository.findOneId(id);
+    await this.colaboradorRepository.update(
+      {
+        password: "",
+      },
+      id,
+      "Colaborador-Comum"
+    );
+    return {
+      message: "Atualizado para colaborador com sucesso!.",
+    };
+  }
+
   async updateToColaboradorCadastro(id: string, token: string) {
     let adm;
     if (process.env.NODE_ENV === "production") {
