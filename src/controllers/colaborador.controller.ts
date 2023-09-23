@@ -65,7 +65,7 @@ export class ColaboradorController {
 
   @Roles("update-colaborador-role")
   @Put("role/:id")
-  async updateToLider(
+  async updateRole(
     @Param("id") id: string,
     @Query() query: ChangeRoleColaboradorDTO,
     @Headers("authorization") token: string
