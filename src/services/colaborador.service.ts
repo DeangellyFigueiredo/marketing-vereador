@@ -22,6 +22,7 @@ import {
   FilterColaboradorDTO,
 } from "src/dtos/colaborador/filterColaborador.dto";
 import { th } from "date-fns/locale";
+import { convertFaixaSalarial } from "src/utils/Utils";
 @Injectable()
 export class ColaboradorService {
   constructor(
@@ -219,6 +220,7 @@ export class ColaboradorService {
       filePath
     ) => {
       const data = colaboradores.map((colaborador: Colaborador) => {
+        const faixaSalarial = convertFaixaSalarial(colaborador.faixaSalarial);
         return [
           colaborador.nome,
           colaborador.rua,
@@ -239,7 +241,7 @@ export class ColaboradorService {
           colaborador.zona,
           colaborador.secao,
           colaborador.recebeBeneficio === false ? "Não" : "Sim",
-          colaborador.faixaSalarial,
+          faixaSalarial,
         ];
       });
 
