@@ -18,7 +18,10 @@ import { Public } from "src/decorators/public.decorator";
 import { Roles } from "src/decorators/roles.decorator";
 import { FirstLoginDTO } from "src/dtos/adm/firstLogin.dto";
 import { CreateColaboradorDTO } from "src/dtos/colaborador/createColaborador.dto";
-import { FilterColaboradorDTO } from "src/dtos/colaborador/filterColaborador.dto";
+import {
+  ChangeRoleColaboradorDTO,
+  FilterColaboradorDTO,
+} from "src/dtos/colaborador/filterColaborador.dto";
 import { UpdateColaboradorDTO } from "src/dtos/colaborador/updateColaborador.dto";
 import { ColaboradorService } from "src/services/colaborador.service";
 
@@ -60,31 +63,14 @@ export class ColaboradorController {
     return await this.colaboradorService.update(payload, id);
   }
 
-  @Roles("update-to-lider")
-  @Put("lider/:id")
+  @Roles("update-colaborador-role")
+  @Put("role/:id")
   async updateToLider(
     @Param("id") id: string,
+    @Query() query: ChangeRoleColaboradorDTO,
     @Headers("authorization") token: string
   ) {
-    return await this.colaboradorService.updateToLider(id, token);
-  }
-
-  @Roles("update-to-colaborador")
-  @Put("colaborador/:id")
-  async updateToColaborador(
-    @Param("id") id: string,
-    @Headers("authorization") token: string
-  ) {
-    return await this.colaboradorService.updateToColaborador(id, token);
-  }
-
-  @Roles("update-to-colaborador-cadastro")
-  @Put("colaborador-cadastro/:id")
-  async updateToColaboradorCadastro(
-    @Param("id") id: string,
-    @Headers("authorization") token: string
-  ) {
-    return await this.colaboradorService.updateToColaboradorCadastro(id, token);
+    return await this.colaboradorService.changeRole(id, token, query);
   }
 
   @Put("/first-login/")
@@ -105,7 +91,7 @@ export class ColaboradorController {
   }
 
   @Get("download/file")
-  @Public()
+  @Roles("export-colaborador")
   @HttpCode(HttpStatus.OK)
   async exportsColaboradorFile(
     @Response({ passthrough: true }) res,

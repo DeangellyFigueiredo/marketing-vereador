@@ -5,3 +5,9 @@ export enum ERoles {
   Role_ColaboradorComun = "Colaborador-Comum",
   ROLE_ColaboradorCadastro = "Colaborador-Cadastro",
 }
+
+export enum EChangeRole {
+  ROLE_Lider = "Lider",
+  Role_ColaboradorComun = "Colaborador-Comum",
+  ROLE_ColaboradorCadastro = "Colaborador-Cadastro",
+}

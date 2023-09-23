@@ -17,7 +17,10 @@ import * as XLSX from "xlsx";
 import * as path from "path";
 import * as fs from "fs";
 import { FirstLoginDTO } from "src/dtos/adm/firstLogin.dto";
-import { FilterColaboradorDTO } from "src/dtos/colaborador/filterColaborador.dto";
+import {
+  ChangeRoleColaboradorDTO,
+  FilterColaboradorDTO,
+} from "src/dtos/colaborador/filterColaborador.dto";
 import { th } from "date-fns/locale";
 @Injectable()
 export class ColaboradorService {
@@ -101,7 +104,7 @@ export class ColaboradorService {
     return await this.colaboradorRepository.findByEmail(email);
   }
 
-  async updateToLider(id: string, token: string) {
+  async changeRole(id: string, token: string, query: ChangeRoleColaboradorDTO) {
     let adm;
     if (process.env.NODE_ENV === "production") {
       const tokenExtracted = await this.authService.decodeJWT(token);
@@ -114,6 +117,18 @@ export class ColaboradorService {
     if (!colaborador) {
       throw new HttpException("Colaborador não encontrado!", 404);
     }
+    if (query.tipo === "Colaborador-Comum") {
+      await this.colaboradorRepository.update(
+        {
+          password: "",
+        },
+        id,
+        "Colaborador-Comum"
+      );
+      return {
+        message: "Atualizado para colaborador comum com sucesso!.",
+      };
+    }
     const password = bcrypt.hashSync(
       colaborador.nome.substring(0, 3) + colaborador.cpf.substring(0, 3),
       10
@@ -123,62 +138,12 @@ export class ColaboradorService {
         password,
       },
       id,
-      "Lider"
+      query.tipo
     );
     return {
-      message: "Colaborador atualizado para Líder com sucesso!",
+      message: "Colaborador atualizado com sucesso!",
     };
   }
-
-  async updateToColaborador(id: string, token: string) {
-    let adm;
-    if (process.env.NODE_ENV === "production") {
-      const tokenExtracted = await this.authService.decodeJWT(token);
-      adm = await this.admService.findOneId(tokenExtracted.sub.id);
-      if (!adm) {
-        throw new HttpException("Administrador não encontrado!", 404);
-      }
-    }
-    const colaborador = await this.colaboradorRepository.findOneId(id);
-    await this.colaboradorRepository.update(
-      {
-        password: "",
-      },
-      id,
-      "Colaborador-Comum"
-    );
-    return {
-      message: "Atualizado para colaborador com sucesso!.",
-    };
-  }
-
-  async updateToColaboradorCadastro(id: string, token: string) {
-    let adm;
-    if (process.env.NODE_ENV === "production") {
-      const tokenExtracted = await this.authService.decodeJWT(token);
-      adm = await this.admService.findOneId(tokenExtracted.sub.id);
-      if (!adm) {
-        throw new HttpException("Administrador não encontrado!", 404);
-      }
-    }
-    const colaborador = await this.colaboradorRepository.findOneId(id);
-    const password = bcrypt.hashSync(
-      colaborador.nome.substring(0, 3) + colaborador.cpf.substring(0, 3),
-      10
-    );
-    await this.colaboradorRepository.update(
-      {
-        password,
-      },
-      id,
-      "Colaborador-Cadastro"
-    );
-    return {
-      message:
-        "Colaborador atualizado para Colaborador de Cadastro com sucesso!",
-    };
-  }
-
   async firstLogin(payload: FirstLoginDTO, token: string) {
     const tokenExtracted = await this.authService.decodeJWT(token);
     const colaborador = await this.colaboradorRepository.findByIdToLogin(
