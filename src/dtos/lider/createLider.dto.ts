@@ -134,6 +134,7 @@ export class CreateLiderDTO {
   @IsDefined()
   recebeBeneficio: boolean;
   @ApiProperty()
+  @IsNumber()
   @IsDefined()
   @IsNotEmpty()
   faixaSalarial: number;

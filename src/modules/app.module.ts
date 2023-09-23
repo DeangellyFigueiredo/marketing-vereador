@@ -12,9 +12,7 @@ import { PreCadastroModule } from "./pre-cadastro.module";
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: ".env" }),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, "..", "../tmp/uploads"),
-    }),
+
     AuthModule,
     AdmModule,
     RepositoryModule,

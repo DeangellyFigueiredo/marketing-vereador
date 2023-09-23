@@ -1,4 +1,10 @@
-import { HttpException, Inject, Injectable, forwardRef } from "@nestjs/common";
+import {
+  HttpException,
+  Inject,
+  Injectable,
+  StreamableFile,
+  forwardRef,
+} from "@nestjs/common";
 import { CreateColaboradorDTO } from "src/dtos/colaborador/createColaborador.dto";
 import { UpdateColaboradorDTO } from "src/dtos/colaborador/updateColaborador.dto";
 import { Colaborador } from "src/entities/colaborador.entity";
@@ -7,8 +13,12 @@ import { LiderService } from "./lider.service";
 import { AuthService } from "./auth.service";
 import { AdmService } from "./adm.service";
 import * as bcrypt from "bcrypt";
+import * as XLSX from "xlsx";
+import * as path from "path";
+import * as fs from "fs";
 import { FirstLoginDTO } from "src/dtos/adm/firstLogin.dto";
 import { FilterColaboradorDTO } from "src/dtos/colaborador/filterColaborador.dto";
+import { th } from "date-fns/locale";
 @Injectable()
 export class ColaboradorService {
   constructor(
@@ -182,5 +192,111 @@ export class ColaboradorService {
       );
     }
     return await this.colaboradorRepository.findAllRecrutados(id, filter);
+  }
+
+  async exportsColaboradorFile(filter: FilterColaboradorDTO) {
+    const headers = [
+      "Nome",
+      "Rua",
+      "Número Casa",
+      "Bairro",
+      "Idade",
+      "Telefone",
+      "Email",
+      "Profissao",
+      "Escolaridade",
+      "Redes Sociais",
+      "CEP",
+      "Data Nascimento",
+      "RG",
+      "Orgao Expedidor",
+      "CPF",
+      "Título Eleitor",
+      "Zona",
+      "Seção",
+      "Recebe Benefício",
+      "Faixa Salarial",
+    ];
+    const filePath = "./colaboradores.xlsx";
+    const workSheetName = "LISTA DE COLABORADORES";
+
+    const colaboradores = await this.colaboradorRepository.findAll(filter);
+    if (colaboradores.length === 0) {
+      throw new HttpException("Não há colaboradores para exportar!", 404);
+    }
+
+    const exportedEmployeeToXLSX = async (
+      colaboradores,
+      headers,
+      workSheetName,
+      filePath
+    ) => {
+      const data = colaboradores.map((colaborador: Colaborador) => {
+        return [
+          colaborador.nome,
+          colaborador.rua,
+          colaborador.numeroCasa,
+          colaborador.bairro,
+          colaborador.idade,
+          colaborador.telefone,
+          colaborador.email,
+          colaborador.profissao,
+          colaborador.escolaridade,
+          colaborador.redesSociais,
+          colaborador.cep,
+          colaborador.dataNascimento,
+          colaborador.rg,
+          colaborador.orgaoExpedidor,
+          colaborador.cpf,
+          colaborador.tituloEleitor,
+          colaborador.zona,
+          colaborador.secao,
+          colaborador.recebeBeneficio === false ? "Não" : "Sim",
+          colaborador.faixaSalarial,
+        ];
+      });
+
+      const workBook = XLSX.utils.book_new();
+      const workSheetData = [headers, ...data];
+
+      const workSheet = XLSX.utils.aoa_to_sheet(workSheetData);
+      workSheet["!cols"] = [
+        { wch: 30 },
+        { wch: 40 },
+        { wch: 5 },
+        { wch: 20 },
+        { wch: 10 },
+        { wch: 20 },
+        { wch: 20 },
+        { wch: 20 },
+        { wch: 30 },
+        { wch: 20 },
+        { wch: 20 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 30 },
+        { wch: 25 },
+        { wch: 25 },
+        { wch: 25 },
+        { wch: 25 },
+        { wch: 10 },
+        { wch: 25 },
+      ];
+
+      XLSX.utils.book_append_sheet(workBook, workSheet, workSheetName);
+      const pathFile = path.resolve(filePath);
+      XLSX.writeFile(workBook, pathFile);
+
+      const exportedKanbans = fs.createReadStream(pathFile);
+
+      return new StreamableFile(exportedKanbans);
+    };
+
+    return exportedEmployeeToXLSX(
+      colaboradores,
+      headers,
+      workSheetName,
+      filePath
+    );
   }
 }

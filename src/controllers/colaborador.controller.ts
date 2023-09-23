@@ -8,6 +8,9 @@ import {
   Put,
   Headers,
   Query,
+  HttpCode,
+  HttpStatus,
+  Response,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { Console } from "console";
@@ -34,7 +37,7 @@ export class ColaboradorController {
   }
 
   @Roles("list-colaborador")
-  @Get()
+  @Get("/findAll")
   async findAll(@Query() filter: FilterColaboradorDTO) {
     return await this.colaboradorService.findAll(filter);
   }
@@ -90,5 +93,20 @@ export class ColaboradorController {
     @Query() filter: FilterColaboradorDTO
   ) {
     return await this.colaboradorService.findAllRecrutados(id, filter);
+  }
+
+  @Get("download/file/colaboradores")
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  async exportsColaboradorFile(
+    @Response({ passthrough: true }) res,
+    @Query() filters: FilterColaboradorDTO
+  ): Promise<any> {
+    const fileName = "Colaboradores Exportados.xlsx";
+    res.set({
+      "Content-Type": "application/json",
+      "Content-Disposition": `attachment; filename="${fileName}"`,
+    });
+    return await this.colaboradorService.exportsColaboradorFile(filters);
   }
 }
