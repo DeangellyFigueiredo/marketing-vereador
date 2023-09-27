@@ -77,17 +77,6 @@ export class CreateColaboradorDTO {
   @Transform(({ value }) => value.trim())
   cep: string;
   @ApiProperty()
-  @IsString()
-  @IsDefined()
-  @Transform(({ value }) => value.trim())
-  latitude: string;
-  @ApiProperty()
-  @IsString()
-  @IsDefined()
-  @IsNotEmpty()
-  @Transform(({ value }) => value.trim())
-  longitude: string;
-  @ApiProperty()
   @IsDefined()
   dataNascimento: Date;
   @ApiProperty()

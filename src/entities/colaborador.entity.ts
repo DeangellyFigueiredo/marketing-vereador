@@ -14,8 +14,8 @@ export class Colaborador {
   escolaridade: string;
   redesSociais: string;
   cep: string;
-  latitude: string;
-  longitude: string;
+  latitude?: string;
+  longitude?: string;
   dataNascimento: Date;
   rg: string;
   orgaoExpedidor: string;

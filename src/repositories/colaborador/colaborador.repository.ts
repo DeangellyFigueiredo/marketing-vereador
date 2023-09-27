@@ -33,7 +33,9 @@ export class ColaboradorRepository
       where: {
         id,
         role: {
-          name: "Lider" || "Colaborador-Cadastro",
+          name: {
+            notIn: ["Lider", "Colaborador-Cadastro"],
+          },
         },
       },
       include: {
@@ -201,7 +203,9 @@ export class ColaboradorRepository
       where: {
         email,
         role: {
-          name: "Lider" || "Colaborador-Cadastro",
+          name: {
+            notIn: ["Colaborador-Comum", "Administrativo"],
+          },
         },
       },
       include: {

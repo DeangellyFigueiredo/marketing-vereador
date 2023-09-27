@@ -59,7 +59,12 @@ export class AuthService {
   }
 
   async decodeJWT(token: string): Promise<any> {
-    const tokenExtracted = this.extractToken(token);
+    if (!token)
+      throw new HttpException("Token não provido", HttpStatus.UNAUTHORIZED);
+
+    const tokenExtracted = token.includes("Bearer")
+      ? this.extractToken(token)
+      : token;
     if (!tokenExtracted)
       throw new HttpException("Token não provido", HttpStatus.UNAUTHORIZED);
 
