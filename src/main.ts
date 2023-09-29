@@ -25,10 +25,14 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("swagger", app, document);
 
-  await app.listen(process.env.PORT_BACKEND, () => {
-    console.log(`🤖 server running on port ${process.env.PORT_BACKEND}...`);
+  const port =
+    process.env.NODE_ENV === "production"
+      ? process.env.PORT_DOCKER
+      : process.env.PORT_BACKEND;
+  await app.listen(port, () => {
+    console.log(`🤖 server running on port ${port}...`);
     console.log(
-      `🚀 swagger running on port http://localhost:${process.env.PORT_BACKEND}/swagger`
+      `🚀 swagger running on port http://${process.env.IP_BACKEND}:${port}/swagger`
     );
   });
 }
