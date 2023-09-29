@@ -10,26 +10,33 @@ export class PrismaService
   async onModuleInit() {
     await this.$connect();
 
-    const roles = await this.role.count();
-    if (roles === 0) {
-      await this.role.createMany({
-        data: [
-          {
-            name: "Lider",
-          },
-          {
-            name: "PrimeiroLogin",
-          },
-          {
-            name: "Administrativo",
-          },
-          {
-            name: "Colaborador-Comum",
-          },
-          {
-            name: "Colaborador-Cadastro",
-          },
-        ],
+    const roles = await this.role.findMany();
+    if (roles.length === 0) {
+      await this.role.create({
+        data: {
+          name: "Lider",
+        },
+      });
+
+      await this.role.create({
+        data: {
+          name: "PrimeiroLogin",
+        },
+      });
+      await this.role.create({
+        data: {
+          name: "Administrativo",
+        },
+      });
+      await this.role.create({
+        data: {
+          name: "Colaborador-Comum",
+        },
+      });
+      await this.role.create({
+        data: {
+          name: "Colaborador-Cadastro",
+        },
       });
     }
 

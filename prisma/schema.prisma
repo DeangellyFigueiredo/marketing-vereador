@@ -1,6 +1,6 @@
 datasource db {
-  provider = "sqlserver"
-  url      = env("DATABASE_MSSQL_URL")
+  provider = "sqlite"
+  url      = "file:./vereas.db"
 }
 
 generator client {
