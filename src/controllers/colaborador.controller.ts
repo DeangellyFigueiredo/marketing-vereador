@@ -14,6 +14,7 @@ import {
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { Console } from "console";
+import { Page } from "src/configs/database/page.model";
 import { Public } from "src/decorators/public.decorator";
 import { Roles } from "src/decorators/roles.decorator";
 import { FirstLoginDTO } from "src/dtos/adm/firstLogin.dto";
@@ -41,8 +42,8 @@ export class ColaboradorController {
 
   @Roles("list-colaborador")
   @Get("/findAll")
-  async findAll(@Query() filter: FilterColaboradorDTO) {
-    return await this.colaboradorService.findAll(filter);
+  async findAll(@Query() filter: FilterColaboradorDTO, @Query() page: Page) {
+    return await this.colaboradorService.findAll(filter, page);
   }
 
   @Roles("list-colaborador")

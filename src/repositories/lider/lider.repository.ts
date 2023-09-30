@@ -109,7 +109,9 @@ export class LiderRepository
       select: {
         id: true,
         nome: true,
-        email: true,
+        cpf: true,
+        telefone: true,
+        bairro: true,
       },
       orderBy: {
         nome: "desc",

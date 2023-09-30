@@ -1,3 +1,4 @@
+import { Page, PageResponsePartial } from "src/configs/database/page.model";
 import { FilterColaboradorDTO } from "src/dtos/colaborador/filterColaborador.dto";
 import { UpdateColaboradorDTO } from "src/dtos/colaborador/updateColaborador.dto";
 import { Colaborador } from "src/entities/colaborador.entity";
@@ -9,7 +10,10 @@ export default interface IColaboradorRepository {
     liderId?: string,
     recrutadorId?: string
   ): Promise<Colaborador>;
-  findAll(filter: FilterColaboradorDTO): Promise<Partial<Colaborador>[]>;
+  findAll(
+    filter: FilterColaboradorDTO,
+    page: Page
+  ): Promise<PageResponsePartial<Colaborador>>;
   delete(id: string): Promise<Colaborador>;
   findOneId(id: string): Promise<Colaborador>;
   findByIdToLogin(id: string): Promise<Colaborador>;

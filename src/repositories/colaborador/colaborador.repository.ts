@@ -7,6 +7,11 @@ import { getDateInLocaleTime } from "src/utils/date.service";
 import IColaboradorRepository from "./colaborador.repository.contract";
 import { v4 as uuid } from "uuid";
 import { FilterColaboradorDTO } from "src/dtos/colaborador/filterColaborador.dto";
+import {
+  Page,
+  PageResponse,
+  PageResponsePartial,
+} from "src/configs/database/page.model";
 @Injectable()
 export class ColaboradorRepository
   extends Pageable<Colaborador>
@@ -133,7 +138,42 @@ export class ColaboradorRepository
     });
     return register.colaborador;
   }
-  async findAll(filter: FilterColaboradorDTO): Promise<Partial<Colaborador>[]> {
+  async findAll(filter: FilterColaboradorDTO, page: Page) {
+    const items = await this.repository.colaborador.findMany({
+      ...this.buildPage(page),
+      where: {
+        deletedAt: null,
+        ...(filter.tipo && {
+          role: {
+            name: filter.tipo,
+          },
+        }),
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    const total = await this.repository.colaborador.count({
+      where: {
+        deletedAt: null,
+        ...(filter.tipo && {
+          role: {
+            name: filter.tipo,
+          },
+        }),
+      },
+    });
+
+    return {
+      items,
+      total,
+    };
+  }
+
+  async findAllToExport(
+    filter: FilterColaboradorDTO
+  ): Promise<Partial<Colaborador>[]> {
     return await this.repository.colaborador.findMany({
       where: {
         deletedAt: null,

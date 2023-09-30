@@ -23,6 +23,7 @@ import {
 } from "src/dtos/colaborador/filterColaborador.dto";
 import { th } from "date-fns/locale";
 import { convertFaixaSalarial } from "src/utils/Utils";
+import { Page } from "src/configs/database/page.model";
 @Injectable()
 export class ColaboradorService {
   constructor(
@@ -74,8 +75,8 @@ export class ColaboradorService {
     };
   }
 
-  async findAll(filter: FilterColaboradorDTO) {
-    return await this.colaboradorRepository.findAll(filter);
+  async findAll(filter: FilterColaboradorDTO, page: Page) {
+    return await this.colaboradorRepository.findAll(filter, page);
   }
 
   async delete(id: string) {
@@ -208,7 +209,9 @@ export class ColaboradorService {
     const filePath = "./colaboradores.xlsx";
     const workSheetName = "LISTA DE COLABORADORES";
 
-    const colaboradores = await this.colaboradorRepository.findAll(filter);
+    const colaboradores = await this.colaboradorRepository.findAllToExport(
+      filter
+    );
     if (colaboradores.length === 0) {
       throw new HttpException("Não há colaboradores para exportar!", 404);
     }
