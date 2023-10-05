@@ -3,6 +3,7 @@ import { Pageable } from "src/configs/database/pageable.service";
 import { PrismaService } from "src/configs/database/prisma.service";
 import { Bairro } from "src/entities/bairro.entity";
 import IBairroRepository from "./bairro.repository.contract";
+import { FilterBairroDTO } from "src/dtos/bairro/filterBairro.dto";
 
 @Injectable()
 export class BairroRepository
@@ -27,8 +28,13 @@ export class BairroRepository
     });
   }
 
-  async findAll(): Promise<Partial<Bairro>[]> {
+  async findAll(query: FilterBairroDTO): Promise<Partial<Bairro>[]> {
+    const filter = {
+      ...(query.nome && { nome: { contains: query.nome } }),
+      ...(query.zona && { zona: { contains: query.zona } }),
+    };
     return await this.repository.bairro.findMany({
+      where: filter,
       select: {
         id: true,
         nome: true,

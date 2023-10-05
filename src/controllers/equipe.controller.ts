@@ -1,6 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+} from "@nestjs/common";
 import { Roles } from "src/decorators/roles.decorator";
 import { CreateEquipeDTO } from "src/dtos/equipe/createEquipe.dto";
+import { FilterEquipeDTO } from "src/dtos/equipe/filterEquipe.dto";
 import { EquipeService } from "src/services/equipe.service";
 
 @Controller("api/equipe")
@@ -15,8 +24,8 @@ export class EquipeController {
 
   @Roles("list-equipe")
   @Get()
-  async findAll() {
-    return await this.equipeService.findAll();
+  async findAll(@Query() query: FilterEquipeDTO) {
+    return await this.equipeService.findAll(query);
   }
 
   @Roles("list-equipe")

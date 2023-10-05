@@ -4,6 +4,7 @@ import { EquipeRepository } from "src/repositories/equipe/equipe.repository";
 import { ColaboradorService } from "./colaborador.service";
 import { Equipe } from "src/entities/equipe.entity";
 import { BairroService } from "./bairro.service";
+import { FilterEquipeDTO } from "src/dtos/equipe/filterEquipe.dto";
 
 @Injectable()
 export class EquipeService {
@@ -68,8 +69,8 @@ export class EquipeService {
     };
   }
 
-  async findAll() {
-    return await this.equipeRepository.findAll();
+  async findAll(query: FilterEquipeDTO) {
+    return await this.equipeRepository.findAll(query);
   }
 
   async findById(id: string) {

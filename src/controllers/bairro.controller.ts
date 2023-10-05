@@ -1,6 +1,16 @@
-import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+} from "@nestjs/common";
+import { query } from "express";
 import { Roles } from "src/decorators/roles.decorator";
 import { CreateBairroDTO } from "src/dtos/bairro/createBairro.dto";
+import { FilterBairroDTO } from "src/dtos/bairro/filterBairro.dto";
 import { BairroService } from "src/services/bairro.service";
 
 @Controller("api/bairro")
@@ -15,8 +25,8 @@ export class BairroController {
 
   @Roles("list-bairro")
   @Get()
-  async findAll() {
-    return await this.bairroService.findAll();
+  async findAll(@Query() query: FilterBairroDTO) {
+    return await this.bairroService.findAll(query);
   }
 
   @Roles("list-bairro")

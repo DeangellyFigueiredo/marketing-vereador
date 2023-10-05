@@ -3,6 +3,7 @@ import { Pageable } from "src/configs/database/pageable.service";
 import { PrismaService } from "src/configs/database/prisma.service";
 import IEquipeRepository from "./equipe.repository.contract";
 import { Equipe } from "src/entities/equipe.entity";
+import { FilterEquipeDTO } from "src/dtos/equipe/filterEquipe.dto";
 
 @Injectable()
 export class EquipeRepository
@@ -76,8 +77,23 @@ export class EquipeRepository
     });
   }
 
-  async findAll(): Promise<Partial<Equipe>[]> {
+  async findAll(query: FilterEquipeDTO): Promise<Partial<Equipe>[]> {
+    const filter = {
+      ...(query.nome && {
+        nome: {
+          contains: query.nome,
+        },
+      }),
+      ...(query.zona && {
+        bairro: {
+          zona: {
+            contains: query.zona,
+          },
+        },
+      }),
+    };
     return await this.repository.equipe.findMany({
+      where: filter,
       orderBy: {
         createdAt: "desc",
       },
