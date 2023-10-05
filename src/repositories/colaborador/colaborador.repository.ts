@@ -29,6 +29,8 @@ export class ColaboradorRepository
       include: {
         role: true,
         Recrutador: true,
+        membroEquipe: true,
+        liderEquipe: true,
       },
     });
   }

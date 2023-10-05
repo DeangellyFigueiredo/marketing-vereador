@@ -23,7 +23,7 @@ export class BairroRepository
 
   async create(payload: Bairro): Promise<Bairro> {
     return await this.repository.bairro.create({
-      data: { ...payload, Equipes: null },
+      data: { ...payload, Equipes: undefined },
     });
   }
 

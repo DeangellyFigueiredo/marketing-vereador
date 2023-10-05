@@ -6,12 +6,15 @@ export class Equipe {
   id: string;
   nome: string;
   bairroId: string;
-  bairro: Bairro;
+  bairro?: Partial<Bairro>;
   createdAt: Date;
-  lider: Colaborador;
-  membros: Colaborador[];
+  lider: Partial<Colaborador>;
+  membros: Partial<Colaborador>[];
 
-  constructor(props: Omit<Equipe, "id">, id?: string) {
+  constructor(
+    props: Omit<Equipe, "id" | "createdAt" | "bairroId">,
+    id?: string
+  ) {
     Object.assign(this, props);
     this.id = id ?? uuid();
   }

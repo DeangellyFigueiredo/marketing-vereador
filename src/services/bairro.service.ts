@@ -1,4 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
+import { CreateBairroDTO } from "src/dtos/bairro/createBairro.dto";
+import { Bairro } from "src/entities/bairro.entity";
 import { BairroRepository } from "src/repositories/bairro/bairro.repository";
 
 @Injectable()
@@ -8,8 +10,9 @@ export class BairroService {
     private readonly bairroRepository: BairroRepository
   ) {}
 
-  async create(payload: any) {
-    return await this.bairroRepository.create(payload);
+  async create(payload: CreateBairroDTO) {
+    await this.bairroRepository.create(new Bairro({ ...payload }));
+    return { message: "Bairro criado com sucesso" };
   }
 
   async findAll() {

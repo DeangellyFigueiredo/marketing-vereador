@@ -7,7 +7,7 @@ export class Bairro {
   createdAt: Date;
   Equipes?: Equipe[];
 
-  constructor(props: Omit<Bairro, "id">, id?: string) {
+  constructor(props: Omit<Bairro, "id" | "createdAt">, id?: string) {
     Object.assign(this, props);
     this.id = id ?? uuid();
   }
