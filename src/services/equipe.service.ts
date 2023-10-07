@@ -127,7 +127,7 @@ export class EquipeService {
     }
 
     const membrosEmOutraEquipe = [];
-    const membros = await Promise.all(
+    await Promise.all(
       payload.novosMembros.map(async (id) => {
         const membro = await this.colaboradorService.findOneId(id);
         if (!membro)
@@ -141,7 +141,6 @@ export class EquipeService {
             HttpStatus.BAD_REQUEST
           );
         if (membro.membroEquipe) membrosEmOutraEquipe.push(membro.nome);
-        return membro;
       })
     );
 

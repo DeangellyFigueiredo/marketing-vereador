@@ -29,6 +29,7 @@ export const setPermissions = (roles: ERoles) => {
       "create-equipe",
       "list-equipe",
       "delete-equipe",
+      "update-equipe",
     ];
 
   if (roles === ERoles.ROLE_Lider)
