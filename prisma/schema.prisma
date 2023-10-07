@@ -92,7 +92,7 @@ model Bairro {
 
 model Equipe {
   id        String        @id @default(cuid())
-  nome      String
+  nome      String        @unique
   bairro    Bairro        @relation(fields: [bairroId], references: [id])
   bairroId  String
   createdAt DateTime      @default(now())

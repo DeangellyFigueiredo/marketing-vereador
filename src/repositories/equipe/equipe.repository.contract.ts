@@ -6,4 +6,7 @@ export default interface IEquipeRepository {
   findAll(query: FilterEquipeDTO): Promise<Partial<Equipe>[]>;
   delete(id: string): Promise<Equipe>;
   findById(id: string): Promise<Equipe>;
+  findByNome(nome: string): Promise<Partial<Equipe>>;
+  update(id: string, payload: Partial<Equipe>): Promise<Partial<Equipe>>;
+  removeMembro(id: string, membroId: string): Promise<Partial<Equipe>>;
 }

@@ -4,6 +4,7 @@ import { PrismaService } from "src/configs/database/prisma.service";
 import IEquipeRepository from "./equipe.repository.contract";
 import { Equipe } from "src/entities/equipe.entity";
 import { FilterEquipeDTO } from "src/dtos/equipe/filterEquipe.dto";
+import { UpdateEquipeDTO } from "src/dtos/equipe/updateEquipe.dto";
 
 @Injectable()
 export class EquipeRepository
@@ -129,6 +130,57 @@ export class EquipeRepository
     return await this.repository.equipe.delete({
       where: {
         id: id,
+      },
+    });
+  }
+
+  async findByNome(nome: string): Promise<Partial<Equipe>> {
+    return await this.repository.equipe.findUnique({
+      where: {
+        nome,
+      },
+    });
+  }
+
+  async update(id: string, payload: UpdateEquipeDTO): Promise<Partial<Equipe>> {
+    return await this.repository.equipe.update({
+      where: {
+        id: id,
+      },
+      data: {
+        nome: payload.nome,
+        bairro: {
+          connect: {
+            id: payload.bairroId,
+          },
+        },
+        lider: {
+          connect: {
+            id: payload.liderId,
+          },
+        },
+        membros: {
+          connect: payload.novosMembros.map((membroId) => {
+            return {
+              id: membroId,
+            };
+          }),
+        },
+      },
+    });
+  }
+
+  async removeMembro(id: string, membroId: string): Promise<Partial<Equipe>> {
+    return await this.repository.equipe.update({
+      where: {
+        id,
+      },
+      data: {
+        membros: {
+          disconnect: {
+            id: membroId,
+          },
+        },
       },
     });
   }
