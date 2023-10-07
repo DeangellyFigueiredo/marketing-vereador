@@ -140,16 +140,32 @@ export class ColaboradorRepository
     });
     return register.colaborador;
   }
-  async findAll(filter: FilterColaboradorDTO, page: Page) {
+  async findAll(query: FilterColaboradorDTO, page: Page) {
+    const filter = {
+      ...(query.tipo && {
+        role: {
+          name: query.tipo,
+        },
+      }),
+      ...(query.nome && {
+        nome: {
+          contains: query.nome,
+        },
+      }),
+      ...(query.bairro && {
+        bairro: {
+          contains: query.bairro,
+        },
+      }),
+      ...(query.idade && {
+        idade: query.idade,
+      }),
+    };
     const items = await this.repository.colaborador.findMany({
       ...this.buildPage(page),
       where: {
         deletedAt: null,
-        ...(filter.tipo && {
-          role: {
-            name: filter.tipo,
-          },
-        }),
+        ...filter,
       },
       orderBy: {
         createdAt: "desc",
@@ -159,11 +175,7 @@ export class ColaboradorRepository
     const total = await this.repository.colaborador.count({
       where: {
         deletedAt: null,
-        ...(filter.tipo && {
-          role: {
-            name: filter.tipo,
-          },
-        }),
+        ...filter,
       },
     });
 
