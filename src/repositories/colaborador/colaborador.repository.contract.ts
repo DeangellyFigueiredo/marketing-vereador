@@ -22,4 +22,5 @@ export default interface IColaboradorRepository {
     id: string,
     filter: FilterColaboradorDTO
   ): Promise<Partial<Colaborador>[]>;
+  removeFromEquipe(id: string): Promise<Colaborador>;
 }

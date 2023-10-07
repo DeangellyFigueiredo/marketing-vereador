@@ -64,6 +64,12 @@ export class ColaboradorRepository
             name: role,
           },
         },
+        membroEquipe: {
+          disconnect: true,
+        },
+        liderEquipe: {
+          disconnect: true,
+        },
       }),
     };
     return await this.repository.colaborador.update({
@@ -265,6 +271,19 @@ export class ColaboradorRepository
       include: {
         role: true,
         Recrutador: true,
+      },
+    });
+  }
+
+  async removeFromEquipe(id: string): Promise<any> {
+    return await this.repository.colaborador.update({
+      where: {
+        id,
+      },
+      data: {
+        membroEquipe: {
+          disconnect: true,
+        },
       },
     });
   }

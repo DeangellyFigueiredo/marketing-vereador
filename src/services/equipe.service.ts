@@ -127,64 +127,66 @@ export class EquipeService {
     }
 
     const membrosEmOutraEquipe = [];
-    await Promise.all(
-      payload.novosMembros.map(async (id) => {
-        const membro = await this.colaboradorService.findOneId(id);
-        if (!membro)
-          throw new HttpException(
-            "Alguns membros não foram encontrados",
-            HttpStatus.NOT_FOUND
-          );
-        if (membro.role.name !== "Colaborador-Comum")
-          throw new HttpException(
-            "Colaborador não é Colaborador Comum",
-            HttpStatus.BAD_REQUEST
-          );
-        if (membro.membroEquipe) membrosEmOutraEquipe.push(membro.nome);
-      })
-    );
-
-    if (membrosEmOutraEquipe.length > 0)
-      throw new HttpException(
-        `Os colaboradores ${membrosEmOutraEquipe.join(
-          ", "
-        )} já estão em outra equipe`,
-        HttpStatus.BAD_REQUEST
+    if (payload.novosMembros) {
+      await Promise.all(
+        payload.novosMembros.map(async (id) => {
+          const membro = await this.colaboradorService.findOneId(id);
+          if (!membro)
+            throw new HttpException(
+              "Alguns membros não foram encontrados",
+              HttpStatus.NOT_FOUND
+            );
+          if (membro.role.name !== "Colaborador-Comum")
+            throw new HttpException(
+              "Colaborador não é Colaborador Comum",
+              HttpStatus.BAD_REQUEST
+            );
+          if (membro.membroEquipe) membrosEmOutraEquipe.push(membro.nome);
+        })
       );
 
-    const membrosToRemove = await Promise.all(
-      payload.removerMembros.map(async (id) => {
-        const membro = await this.colaboradorService.findOneId(id);
-        if (!membro)
-          throw new HttpException(
-            "Alguns membros não foram encontrados",
-            HttpStatus.NOT_FOUND
-          );
-        if (membro.role.name !== "Colaborador-Comum")
-          throw new HttpException(
-            "Colaborador não é Colaborador Comum",
-            HttpStatus.BAD_REQUEST
-          );
-        if (!membro.membroEquipe)
-          throw new HttpException(
-            `O colaborador ${membro.nome} não está em uma equipe`,
-            HttpStatus.BAD_REQUEST
-          );
-        if (membro.membroEquipe.id !== equipe.id)
-          throw new HttpException(
-            `O colaborador ${membro.nome} não está na equipe ${equipe.nome}`,
-            HttpStatus.BAD_REQUEST
-          );
+      if (membrosEmOutraEquipe.length > 0)
+        throw new HttpException(
+          `Os colaboradores ${membrosEmOutraEquipe.join(
+            ", "
+          )} já estão em outra equipe`,
+          HttpStatus.BAD_REQUEST
+        );
+    }
 
-        return membro;
-      })
-    );
+    if (payload.removerMembros) {
+      const membrosToRemove = await Promise.all(
+        payload.removerMembros.map(async (id) => {
+          const membro = await this.colaboradorService.findOneId(id);
+          if (!membro)
+            throw new HttpException(
+              "Alguns membros não foram encontrados",
+              HttpStatus.NOT_FOUND
+            );
+          if (membro.role.name !== "Colaborador-Comum")
+            throw new HttpException(
+              "Colaborador não é Colaborador Comum",
+              HttpStatus.BAD_REQUEST
+            );
+          if (!membro.membroEquipe)
+            throw new HttpException(
+              `O colaborador ${membro.nome} não está em uma equipe`,
+              HttpStatus.BAD_REQUEST
+            );
+          if (membro.membroEquipe.id !== equipe.id)
+            throw new HttpException(
+              `O colaborador ${membro.nome} não está na equipe ${equipe.nome}`,
+              HttpStatus.BAD_REQUEST
+            );
 
-    await Promise.all(
-      membrosToRemove.map(async (membro) => {
-        await this.equipeRepository.removeMembro(id, membro.id);
-      })
-    );
+          return membro;
+        })
+      );
+
+      for await (const membro of membrosToRemove) {
+        await this.colaboradorService.removeFromEquipe(membro.id);
+      }
+    }
 
     await this.equipeRepository.update(id, {
       bairroId: payload.bairroId,

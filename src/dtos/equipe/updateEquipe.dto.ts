@@ -17,9 +17,11 @@ export class UpdateEquipeDTO {
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
   liderId?: string;
+  @IsOptional()
   @IsNotEmpty({ each: true })
   @IsString({ each: true })
   novosMembros?: string[];
+  @IsOptional()
   @IsNotEmpty({ each: true })
   @IsString({ each: true })
   removerMembros?: string[];

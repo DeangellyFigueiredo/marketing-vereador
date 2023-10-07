@@ -13,7 +13,6 @@ import {
   Response,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { Console } from "console";
 import { Page } from "src/configs/database/page.model";
 import { Public } from "src/decorators/public.decorator";
 import { Roles } from "src/decorators/roles.decorator";

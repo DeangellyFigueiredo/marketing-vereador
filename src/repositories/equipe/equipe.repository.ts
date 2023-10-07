@@ -148,24 +148,30 @@ export class EquipeRepository
         id: id,
       },
       data: {
-        nome: payload.nome,
-        bairro: {
-          connect: {
-            id: payload.bairroId,
+        nome: payload.nome!,
+        ...(payload.bairroId && {
+          bairro: {
+            connect: {
+              id: payload.bairroId!,
+            },
           },
-        },
-        lider: {
-          connect: {
-            id: payload.liderId,
+        }),
+        ...(payload.liderId && {
+          lider: {
+            connect: {
+              id: payload.liderId!,
+            },
           },
-        },
-        membros: {
-          connect: payload.novosMembros.map((membroId) => {
-            return {
-              id: membroId,
-            };
-          }),
-        },
+        }),
+        ...(payload.novosMembros && {
+          membros: {
+            connect: payload.novosMembros.map((membroId) => {
+              return {
+                id: membroId,
+              };
+            }),
+          },
+        }),
       },
     });
   }

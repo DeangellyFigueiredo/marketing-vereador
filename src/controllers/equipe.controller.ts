@@ -31,19 +31,19 @@ export class EquipeController {
   }
 
   @Roles("list-equipe")
-  @Get(":/id")
+  @Get("/:id")
   async findOneId(@Param("id") id: string) {
     return await this.equipeService.findById(id);
   }
 
   @Roles("delete-equipe")
-  @Delete(":/id")
+  @Delete("/:id")
   async delete(@Param("id") id: string) {
     return await this.equipeService.delete(id);
   }
 
   @Roles("update-equipe")
-  @Put(":/id")
+  @Put("/:id")
   async update(@Body() payload: UpdateEquipeDTO, @Param("id") id: string) {
     return await this.equipeService.update(id, payload);
   }
