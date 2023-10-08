@@ -1,4 +1,4 @@
-import { IsEnum } from "class-validator";
+import { IsEnum, IsOptional } from "class-validator";
 import { EChangeRole } from "src/utils/ETypes";
 
 enum Role {
@@ -10,6 +10,12 @@ enum Role {
 export class FilterColaboradorDTO {
   @IsEnum(Role, { message: "Tipo inválido!" })
   tipo: Role;
+  @IsOptional()
+  nome?: string;
+  @IsOptional()
+  bairro?: string;
+  @IsOptional()
+  idade?: number;
 }
 
 export class ChangeRoleColaboradorDTO {

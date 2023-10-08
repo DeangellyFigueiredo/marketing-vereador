@@ -291,4 +291,8 @@ export class ColaboradorService {
       filePath
     );
   }
+
+  async removeFromEquipe(id: string) {
+    return await this.colaboradorRepository.removeFromEquipe(id);
+  }
 }

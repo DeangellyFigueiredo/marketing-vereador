@@ -52,6 +52,10 @@ model Colaborador {
   role            Role?       @relation(fields: [roleId], references: [id])
   Recrutador      Recrutador? @relation(fields: [recrutadorId], references: [id])
   recrutadorId    String?
+  liderEquipe     Equipe?     @relation(name: "TeamLeader", fields: [liderId], references: [id])
+  membroEquipe    Equipe?     @relation(name: "TeamMember", fields: [equipeId], references: [id])
+  liderId         String?     @unique
+  equipeId        String?
 }
 
 model PreCadastro {
@@ -76,4 +80,22 @@ model Recrutador {
   admId        String?
   colaborador  Colaborador[]
   createdAt    DateTime      @default(now())
+}
+
+model Bairro {
+  id        String   @id @default(cuid())
+  nome      String   @unique
+  zona      String
+  createdAt DateTime @default(now())
+  Equipes   Equipe[]
+}
+
+model Equipe {
+  id        String        @id @default(cuid())
+  nome      String        @unique
+  bairro    Bairro        @relation(fields: [bairroId], references: [id])
+  bairroId  String
+  createdAt DateTime      @default(now())
+  lider     Colaborador?  @relation(name: "TeamLeader")
+  membros   Colaborador[] @relation(name: "TeamMember")
 }

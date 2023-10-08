@@ -1,5 +1,6 @@
 import { Recrutador, Role } from "@prisma/client";
 import { v4 as uuid } from "uuid";
+import { Equipe } from "./equipe.entity";
 
 export class Colaborador {
   id: string;
@@ -29,6 +30,8 @@ export class Colaborador {
   firstLogin: boolean;
   role: Role;
   Recrutador: Recrutador;
+  liderEquipe?: Partial<Equipe>;
+  membroEquipe?: Partial<Equipe>;
   createdAt: Date;
   updatedAt?: Date;
   deletedAt?: Date;

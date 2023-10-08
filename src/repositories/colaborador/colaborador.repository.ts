@@ -29,6 +29,8 @@ export class ColaboradorRepository
       include: {
         role: true,
         Recrutador: true,
+        membroEquipe: true,
+        liderEquipe: true,
       },
     });
   }
@@ -61,6 +63,12 @@ export class ColaboradorRepository
           connect: {
             name: role,
           },
+        },
+        membroEquipe: {
+          disconnect: true,
+        },
+        liderEquipe: {
+          disconnect: true,
         },
       }),
     };
@@ -138,16 +146,32 @@ export class ColaboradorRepository
     });
     return register.colaborador;
   }
-  async findAll(filter: FilterColaboradorDTO, page: Page) {
+  async findAll(query: FilterColaboradorDTO, page: Page) {
+    const filter = {
+      ...(query.tipo && {
+        role: {
+          name: query.tipo,
+        },
+      }),
+      ...(query.nome && {
+        nome: {
+          contains: query.nome,
+        },
+      }),
+      ...(query.bairro && {
+        bairro: {
+          contains: query.bairro,
+        },
+      }),
+      ...(query.idade && {
+        idade: query.idade,
+      }),
+    };
     const items = await this.repository.colaborador.findMany({
       ...this.buildPage(page),
       where: {
         deletedAt: null,
-        ...(filter.tipo && {
-          role: {
-            name: filter.tipo,
-          },
-        }),
+        ...filter,
       },
       orderBy: {
         createdAt: "desc",
@@ -157,11 +181,7 @@ export class ColaboradorRepository
     const total = await this.repository.colaborador.count({
       where: {
         deletedAt: null,
-        ...(filter.tipo && {
-          role: {
-            name: filter.tipo,
-          },
-        }),
+        ...filter,
       },
     });
 
@@ -251,6 +271,19 @@ export class ColaboradorRepository
       include: {
         role: true,
         Recrutador: true,
+      },
+    });
+  }
+
+  async removeFromEquipe(id: string): Promise<any> {
+    return await this.repository.colaborador.update({
+      where: {
+        id,
+      },
+      data: {
+        membroEquipe: {
+          disconnect: true,
+        },
       },
     });
   }
