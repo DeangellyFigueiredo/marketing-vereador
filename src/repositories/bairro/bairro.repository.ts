@@ -8,8 +8,7 @@ import { FilterBairroDTO } from "src/dtos/bairro/filterBairro.dto";
 @Injectable()
 export class BairroRepository
   extends Pageable<Bairro>
-  implements IBairroRepository
-{
+  implements IBairroRepository {
   constructor(private readonly repository: PrismaService) {
     super();
   }

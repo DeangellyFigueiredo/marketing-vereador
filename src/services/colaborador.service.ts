@@ -35,7 +35,7 @@ export class ColaboradorService {
     private readonly authService: AuthService,
     @Inject(forwardRef(() => AdmService))
     private readonly admService: AdmService
-  ) {}
+  ) { }
 
   async create(payload: CreateColaboradorDTO, token?: string) {
     if (token) {
@@ -77,6 +77,10 @@ export class ColaboradorService {
 
   async findAll(filter: FilterColaboradorDTO, page: Page) {
     return await this.colaboradorRepository.findAll(filter, page);
+  }
+
+  async findAllNoPaginated() {
+    return await this.colaboradorRepository.findAllNoPaginated();
   }
 
   async delete(id: string) {

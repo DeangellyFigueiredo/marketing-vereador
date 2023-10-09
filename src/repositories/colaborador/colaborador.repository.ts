@@ -41,7 +41,7 @@ export class ColaboradorRepository
         id,
         role: {
           name: {
-            notIn: ["Lider", "Colaborador-Cadastro"],
+            notIn: ["Colaborador-Comum"],
           },
         },
       },
@@ -283,6 +283,16 @@ export class ColaboradorRepository
       data: {
         membroEquipe: {
           disconnect: true,
+        },
+      },
+    });
+  }
+
+  async findAllNoPaginated(): Promise<Partial<Colaborador>[]> {
+    return await this.repository.colaborador.findMany({
+      where: {
+        role: {
+          name: "Colaborador-Comum",
         },
       },
     });

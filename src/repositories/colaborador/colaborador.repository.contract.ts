@@ -23,4 +23,5 @@ export default interface IColaboradorRepository {
     filter: FilterColaboradorDTO
   ): Promise<Partial<Colaborador>[]>;
   removeFromEquipe(id: string): Promise<Colaborador>;
+  findAllNoPaginated(): Promise<Partial<Colaborador>[]>
 }

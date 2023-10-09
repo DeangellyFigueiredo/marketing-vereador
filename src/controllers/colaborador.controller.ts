@@ -28,7 +28,7 @@ import { ColaboradorService } from "src/services/colaborador.service";
 @ApiTags("colaborador")
 @Controller("api/colaborador")
 export class ColaboradorController {
-  constructor(private readonly colaboradorService: ColaboradorService) {}
+  constructor(private readonly colaboradorService: ColaboradorService) { }
 
   @Public()
   @Post()
@@ -37,6 +37,12 @@ export class ColaboradorController {
     @Headers("authorization") token: string
   ) {
     return await this.colaboradorService.create(payload, token);
+  }
+
+  @Roles("list-colaborador")
+  @Get()
+  async findAllNoPaginated() {
+    return await this.colaboradorService.findAllNoPaginated();
   }
 
   @Roles("list-colaborador")
