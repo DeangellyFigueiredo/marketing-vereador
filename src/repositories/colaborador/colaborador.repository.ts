@@ -15,8 +15,7 @@ import {
 @Injectable()
 export class ColaboradorRepository
   extends Pageable<Colaborador>
-  implements IColaboradorRepository
-{
+  implements IColaboradorRepository {
   constructor(private readonly repository: PrismaService) {
     super();
   }
@@ -41,7 +40,7 @@ export class ColaboradorRepository
         id,
         role: {
           name: {
-            notIn: ["Lider", "Colaborador-Cadastro"],
+            notIn: ["Lider", "Colaborador-Comum"],
           },
         },
       },
@@ -286,5 +285,15 @@ export class ColaboradorRepository
         },
       },
     });
+  }
+
+  async findAllNoPaginated(): Promise<Partial<Colaborador>[]> {
+    return await this.repository.colaborador.findMany({
+      where: {
+        role: {
+          name: "Colaborador-Comum",
+        },
+      }
+    })
   }
 }
