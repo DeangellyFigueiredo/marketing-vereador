@@ -15,7 +15,8 @@ import {
 @Injectable()
 export class ColaboradorRepository
   extends Pageable<Colaborador>
-  implements IColaboradorRepository {
+  implements IColaboradorRepository
+{
   constructor(private readonly repository: PrismaService) {
     super();
   }
@@ -40,7 +41,7 @@ export class ColaboradorRepository
         id,
         role: {
           name: {
-            notIn: ["Lider", "Colaborador-Comum"],
+            notIn: ["Colaborador-Comum"],
           },
         },
       },
@@ -293,7 +294,7 @@ export class ColaboradorRepository
         role: {
           name: "Colaborador-Comum",
         },
-      }
-    })
+      },
+    });
   }
 }
