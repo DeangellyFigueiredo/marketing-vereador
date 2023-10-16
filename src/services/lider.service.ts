@@ -6,6 +6,7 @@ import { LiderRepository } from "src/repositories/lider/lider.repository";
 import { ColaboradorService } from "./colaborador.service";
 import { AdmService } from "./adm.service";
 import { CreateColaboradorDTO } from "src/dtos/colaborador/createColaborador.dto";
+import { Roles } from "src/decorators/roles.decorator";
 
 @Injectable()
 export class LiderService {

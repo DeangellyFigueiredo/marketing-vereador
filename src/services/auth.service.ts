@@ -105,11 +105,16 @@ export class AuthService {
 
   async admLogin(data: AdmDTO): Promise<any> {
     const user = await this.admService.findOne(data.email);
+    let userColab;
     if (!user)
+      userColab = await this.colaboradorService.findByEmail(data.email);
+    if (!user && !userColab)
       throw new HttpException(
-        "Usuário ou senha inválidos",
+        "E-mail ou senha inválido",
         HttpStatus.UNAUTHORIZED
       );
+
+    if (userColab) return await this.colaboradorLogin(data);
 
     const isValidPassword = bcrypt.compareSync(data.password, user.password);
 
@@ -144,7 +149,10 @@ export class AuthService {
     return { ...result, token };
   }
 
-  async colaboradorLogin(data: ColaboradorDTO): Promise<any> {
+  async colaboradorLogin(data: {
+    email: string;
+    password: string;
+  }): Promise<any> {
     const user = await this.colaboradorService.findByEmail(data.email);
     if (!user)
       throw new HttpException(
@@ -154,6 +162,7 @@ export class AuthService {
 
     const isValidPassword = bcrypt.compareSync(data.password, user.password);
 
+    console.log(isValidPassword);
     if (!isValidPassword)
       throw new HttpException(
         "E-mail ou senha inválido",
