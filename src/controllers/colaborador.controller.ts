@@ -111,9 +111,8 @@ export class ColaboradorController {
     return await this.colaboradorService.exportsColaboradorFile(filters);
   }
 
-  @Public()
   @Get("download/recrutados/:id")
-  //@Roles("export-colaborador")
+  @Roles("export-colaborador")
   @HttpCode(HttpStatus.OK)
   async exportsColaboradorRecrutadosFile(
     @Response({ passthrough: true }) res,
