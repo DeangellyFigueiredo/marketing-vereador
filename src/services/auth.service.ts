@@ -162,7 +162,6 @@ export class AuthService {
 
     const isValidPassword = bcrypt.compareSync(data.password, user.password);
 
-    console.log(isValidPassword);
     if (!isValidPassword)
       throw new HttpException(
         "E-mail ou senha inválido",

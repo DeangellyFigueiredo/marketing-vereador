@@ -208,6 +208,37 @@ export class ColaboradorRepository
       },
     });
   }
+  async findRecrutadosToExport(
+    id: string,
+    filter: FilterColaboradorDTO
+  ): Promise<Partial<Colaborador>[]> {
+    const recrutador = {
+      ...(filter.tipo === "Lider" && {
+        Recrutador: {
+          liderId: id,
+        },
+      }),
+      ...(filter.tipo === "Colaborador-Cadastro" && {
+        Recrutador: {
+          recrutadorId: id,
+        },
+      }),
+      ...(filter.tipo === "Administrativo" && {
+        Recrutador: {
+          admId: id,
+        },
+      }),
+    };
+    return await this.repository.colaborador.findMany({
+      where: {
+        ...recrutador,
+        deletedAt: null,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  }
 
   async delete(id: string): Promise<any> {
     return await this.repository.colaborador.delete({
@@ -249,12 +280,6 @@ export class ColaboradorRepository
       },
       orderBy: {
         createdAt: "desc",
-      },
-      select: {
-        id: true,
-        nome: true,
-        cpf: true,
-        createdAt: true,
       },
     });
   }

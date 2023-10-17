@@ -35,7 +35,7 @@ export class ColaboradorService {
     private readonly authService: AuthService,
     @Inject(forwardRef(() => AdmService))
     private readonly admService: AdmService
-  ) { }
+  ) {}
 
   async create(payload: CreateColaboradorDTO, token?: string) {
     if (token) {
@@ -296,6 +296,118 @@ export class ColaboradorService {
     );
   }
 
+  async exportsColaboradorRecrutadosFile(
+    id: string,
+    filter: FilterColaboradorDTO
+  ) {
+    const headers = [
+      "Nome",
+      "Rua",
+      "Número Casa",
+      "Bairro",
+      "Idade",
+      "Telefone",
+      "Email",
+      "Profissao",
+      "Escolaridade",
+      "Redes Sociais",
+      "CEP",
+      "Data Nascimento",
+      "RG",
+      "Orgao Expedidor",
+      "CPF",
+      "Título Eleitor",
+      "Zona",
+      "Seção",
+      "Recebe Benefício",
+      "Faixa Salarial",
+    ];
+    const filePath = "./colaboradores.xlsx";
+    const workSheetName = "COLABORADORES RECRUTADOS";
+
+    const colaboradores = await this.colaboradorRepository.findAllRecrutados(
+      id,
+      filter
+    );
+    if (colaboradores.length === 0) {
+      throw new HttpException("Não há colaboradores para exportar!", 404);
+    }
+
+    const exportedEmployeeToXLSX = async (
+      colaboradores,
+      headers,
+      workSheetName,
+      filePath
+    ) => {
+      const data = colaboradores.map((colaborador: Colaborador) => {
+        const faixaSalarial = convertFaixaSalarial(colaborador.faixaSalarial);
+        return [
+          colaborador.nome,
+          colaborador.rua,
+          colaborador.numeroCasa,
+          colaborador.bairro,
+          colaborador.idade,
+          colaborador.telefone,
+          colaborador.email,
+          colaborador.profissao,
+          colaborador.escolaridade,
+          colaborador.redesSociais,
+          colaborador.cep,
+          colaborador.dataNascimento,
+          colaborador.rg,
+          colaborador.orgaoExpedidor,
+          colaborador.cpf,
+          colaborador.tituloEleitor,
+          colaborador.zona,
+          colaborador.secao,
+          colaborador.recebeBeneficio === false ? "Não" : "Sim",
+          faixaSalarial,
+        ];
+      });
+
+      const workBook = XLSX.utils.book_new();
+      const workSheetData = [headers, ...data];
+
+      const workSheet = XLSX.utils.aoa_to_sheet(workSheetData);
+      workSheet["!cols"] = [
+        { wch: 30 },
+        { wch: 40 },
+        { wch: 5 },
+        { wch: 20 },
+        { wch: 10 },
+        { wch: 20 },
+        { wch: 20 },
+        { wch: 20 },
+        { wch: 30 },
+        { wch: 20 },
+        { wch: 20 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 30 },
+        { wch: 25 },
+        { wch: 25 },
+        { wch: 25 },
+        { wch: 25 },
+        { wch: 10 },
+        { wch: 25 },
+      ];
+
+      XLSX.utils.book_append_sheet(workBook, workSheet, workSheetName);
+      const pathFile = path.resolve(filePath);
+      XLSX.writeFile(workBook, pathFile);
+
+      const exportedKanbans = fs.createReadStream(pathFile);
+
+      return new StreamableFile(exportedKanbans);
+    };
+
+    return exportedEmployeeToXLSX(
+      colaboradores,
+      headers,
+      workSheetName,
+      filePath
+    );
+  }
   async removeFromEquipe(id: string) {
     return await this.colaboradorRepository.removeFromEquipe(id);
   }

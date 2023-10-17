@@ -28,7 +28,7 @@ import { ColaboradorService } from "src/services/colaborador.service";
 @ApiTags("colaborador")
 @Controller("api/colaborador")
 export class ColaboradorController {
-  constructor(private readonly colaboradorService: ColaboradorService) { }
+  constructor(private readonly colaboradorService: ColaboradorService) {}
 
   @Public()
   @Post()
@@ -109,5 +109,25 @@ export class ColaboradorController {
       "Content-Disposition": `attachment; filename="${fileName}"`,
     });
     return await this.colaboradorService.exportsColaboradorFile(filters);
+  }
+
+  @Public()
+  @Get("download/recrutados/:id")
+  //@Roles("export-colaborador")
+  @HttpCode(HttpStatus.OK)
+  async exportsColaboradorRecrutadosFile(
+    @Response({ passthrough: true }) res,
+    @Param("id") id: string,
+    @Query() filters: FilterColaboradorDTO
+  ): Promise<any> {
+    const fileName = "Colaboradores Recrutados Exportados.xlsx";
+    res.set({
+      "Content-Type": "application/json",
+      "Content-Disposition": `attachment; filename="${fileName}"`,
+    });
+    return await this.colaboradorService.exportsColaboradorRecrutadosFile(
+      id,
+      filters
+    );
   }
 }
