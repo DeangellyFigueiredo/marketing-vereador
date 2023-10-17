@@ -251,6 +251,7 @@ export class ColaboradorRepository
         createdAt: "desc",
       },
       select: {
+        id: true,
         nome: true,
         cpf: true,
         createdAt: true,
