@@ -274,9 +274,6 @@ export class ColaboradorRepository
       where: {
         ...recrutador,
         deletedAt: null,
-        role: {
-          name: "Colaborador-Comum",
-        },
       },
       orderBy: {
         createdAt: "desc",

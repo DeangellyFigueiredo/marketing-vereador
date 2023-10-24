@@ -127,6 +127,7 @@ export class ColaboradorService {
       await this.colaboradorRepository.update(
         {
           password: "",
+          firstLogin: true,
         },
         id,
         "Colaborador-Comum"
@@ -142,6 +143,7 @@ export class ColaboradorService {
     await this.colaboradorRepository.update(
       {
         password,
+        firstLogin: true,
       },
       id,
       query.tipo
