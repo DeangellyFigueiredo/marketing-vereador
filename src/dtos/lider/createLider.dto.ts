@@ -122,6 +122,12 @@ export class CreateLiderDTO {
   @IsDefined()
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
+  nomeMae: string;
+  @ApiProperty()
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  @Transform(({ value }) => value.trim())
   zona: string;
   @ApiProperty()
   @IsString()
