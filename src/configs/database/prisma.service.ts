@@ -146,6 +146,41 @@ export class PrismaService
           zona: "Sul",
         })),
       });
+
+      await this.bairro.createMany({
+        data: westZone.map((bairro) => ({
+          nome: bairro,
+          zona: "Oeste",
+        })),
+      });
+
+      await this.bairro.createMany({
+        data: northZone.map((bairro) => ({
+          nome: bairro,
+          zona: "Norte",
+        })),
+      });
+
+      await this.bairro.createMany({
+        data: eastZone.map((bairro) => ({
+          nome: bairro,
+          zona: "Leste",
+        })),
+      });
+
+      await this.bairro.createMany({
+        data: southCenterZone.map((bairro) => ({
+          nome: bairro,
+          zona: "Centro-Sul",
+        })),
+      });
+
+      await this.bairro.createMany({
+        data: midwestZone.map((bairro) => ({
+          nome: bairro,
+          zona: "Centro-Oeste",
+        })),
+      });
     }
   }
   async onModuleDestroy() {
