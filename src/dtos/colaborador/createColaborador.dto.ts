@@ -90,6 +90,12 @@ export class CreateColaboradorDTO {
   @IsDefined()
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
+  nomeMae: string;
+  @ApiProperty()
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  @Transform(({ value }) => value.trim())
   orgaoExpedidor: string;
   @ApiProperty()
   @IsString()

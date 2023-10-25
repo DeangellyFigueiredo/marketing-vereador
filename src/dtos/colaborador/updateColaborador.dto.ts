@@ -19,6 +19,9 @@ export class UpdateColaboradorDTO {
   profissao?: string;
   @ApiProperty()
   @IsOptional()
+  nomeMae?: string;
+  @ApiProperty()
+  @IsOptional()
   escolaridade?: string;
   @ApiProperty()
   @IsOptional()

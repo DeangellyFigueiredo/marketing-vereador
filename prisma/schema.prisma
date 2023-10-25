@@ -38,6 +38,7 @@ model Colaborador {
   rg              String      @unique
   orgaoExpedidor  String
   cpf             String      @unique
+  nomeMae         String      @default("")
   tituloEleitor   String
   zona            String
   secao           String

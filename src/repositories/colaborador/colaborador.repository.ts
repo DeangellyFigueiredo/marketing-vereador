@@ -106,6 +106,7 @@ export class ColaboradorRepository
       longitude: payload.longitude ?? "",
       dataNascimento: payload.dataNascimento,
       rg: payload.rg,
+      nomeMae: payload.nomeMae,
       orgaoExpedidor: payload.orgaoExpedidor,
       cpf: payload.cpf,
       tituloEleitor: payload.tituloEleitor,

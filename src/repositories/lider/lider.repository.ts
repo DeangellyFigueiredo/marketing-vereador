@@ -68,6 +68,7 @@ export class LiderRepository
       redesSociais: payload.redesSociais,
       dataNascimento: payload.dataNascimento,
       rg: payload.rg,
+      nomeMae: payload.nomeMae,
       orgaoExpedidor: payload.orgaoExpedidor,
       cpf: payload.cpf,
       tituloEleitor: payload.tituloEleitor,

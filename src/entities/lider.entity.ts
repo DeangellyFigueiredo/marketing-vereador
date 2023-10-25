@@ -18,6 +18,7 @@ export class Lider {
   redesSociais: string;
   dataNascimento: Date;
   rg: string;
+  nomeMae: string;
   orgaoExpedidor: string;
   cpf: string;
   tituloEleitor: string;
