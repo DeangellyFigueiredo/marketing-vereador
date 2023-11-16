@@ -46,6 +46,14 @@ export class CreateLiderDTO {
   @ApiProperty()
   @IsString()
   @IsDefined()
+  complemento: string;
+  @ApiProperty()
+  @IsString()
+  @IsDefined()
+  nomePai: string;
+  @ApiProperty()
+  @IsString()
+  @IsDefined()
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
   cep: string;

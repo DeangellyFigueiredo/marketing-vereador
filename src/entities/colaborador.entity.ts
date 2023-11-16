@@ -8,6 +8,8 @@ export class Colaborador {
   rua: string;
   numeroCasa: string;
   bairro: string;
+  complemento: string;
+  nomePai: string;
   idade: number;
   telefone: string;
   email: string;

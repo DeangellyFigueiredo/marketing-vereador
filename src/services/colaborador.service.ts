@@ -83,7 +83,17 @@ export class ColaboradorService {
     return await this.colaboradorRepository.findAllNoPaginated();
   }
 
-  async delete(id: string) {
+  async delete(id: string, token: string, password: string) {
+    const tokenExtracted = await this.authService.decodeJWT(token);
+    const adm = await this.admService.findOneId(tokenExtracted.sub.id);
+    if (!adm) {
+      throw new HttpException("Administrador não encontrado!", 404);
+    }
+
+    const isValidPassword = bcrypt.compareSync(password, adm.password);
+
+    if (!isValidPassword) throw new HttpException("Senha inválida!", 400);
+
     const colaborador = await this.colaboradorRepository.findOneId(id);
     if (!colaborador) {
       throw new HttpException("Colaborador não encontrado!", 404);

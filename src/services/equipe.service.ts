@@ -6,14 +6,18 @@ import { Equipe } from "src/entities/equipe.entity";
 import { BairroService } from "./bairro.service";
 import { FilterEquipeDTO } from "src/dtos/equipe/filterEquipe.dto";
 import { UpdateEquipeDTO } from "src/dtos/equipe/updateEquipe.dto";
-
+import { AuthService } from "./auth.service";
+import { AdmService } from "./adm.service";
+import * as bcrypt from "bcrypt";
 @Injectable()
 export class EquipeService {
   constructor(
     @Inject("IEquipeRepository")
     private readonly equipeRepository: EquipeRepository,
     private readonly colaboradorService: ColaboradorService,
-    private readonly bairroService: BairroService
+    private readonly bairroService: BairroService,
+    private readonly authService: AuthService,
+    private readonly admService: AdmService
   ) {}
 
   async create(payload: CreateEquipeDTO) {
@@ -85,7 +89,16 @@ export class EquipeService {
     return await this.equipeRepository.findById(id);
   }
 
-  async delete(id: string) {
+  async delete(id: string, token: string, password: string) {
+    const tokenExtracted = await this.authService.decodeJWT(token);
+    const adm = await this.admService.findOneId(tokenExtracted.sub.id);
+    if (!adm) {
+      throw new HttpException("Administrador não encontrado!", 404);
+    }
+
+    const isValidPassword = bcrypt.compareSync(password, adm.password);
+
+    if (!isValidPassword) throw new HttpException("Senha inválida!", 400);
     return await this.equipeRepository.delete(id);
   }
 

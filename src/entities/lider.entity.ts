@@ -8,6 +8,8 @@ export class Lider {
   rua: string;
   numeroCasa: string;
   bairro: string;
+  complemento: string;
+  nomePai: string;
   cep: string;
   latitude: string;
   longitude: string;

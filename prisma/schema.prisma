@@ -26,6 +26,9 @@ model Colaborador {
   rua             String
   numeroCasa      String
   bairro          String
+  complemento     String      @default("")
+  nomeMae         String      @default("")
+  nomePai         String      @default("")
   telefone        String
   email           String      @unique
   profissao       String
@@ -38,7 +41,6 @@ model Colaborador {
   rg              String      @unique
   orgaoExpedidor  String
   cpf             String      @unique
-  nomeMae         String      @default("")
   tituloEleitor   String
   zona            String
   secao           String

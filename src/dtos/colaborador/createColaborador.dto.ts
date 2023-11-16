@@ -36,6 +36,14 @@ export class CreateColaboradorDTO {
   @Transform(({ value }) => value.trim())
   numeroCasa: string;
   @ApiProperty()
+  @IsString()
+  @IsDefined()
+  complemento: string;
+  @ApiProperty()
+  @IsString()
+  @IsDefined()
+  nomePai: string;
+  @ApiProperty()
   @IsNumber()
   @IsDefined()
   @IsNotEmpty()

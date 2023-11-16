@@ -4,6 +4,8 @@ import { EquipeService } from "src/services/equipe.service";
 import { BairroModule } from "./bairro.module";
 import { ColaboradorModule } from "./colaborador.module";
 import { EquipeRepository } from "src/repositories/equipe/equipe.repository";
+import { AuthModule } from "./auth.module";
+import { AdmModule } from "./adm.module";
 
 @Module({
   providers: [
@@ -15,6 +17,6 @@ import { EquipeRepository } from "src/repositories/equipe/equipe.repository";
   ],
   controllers: [EquipeController],
   exports: [EquipeService],
-  imports: [ColaboradorModule, BairroModule],
+  imports: [ColaboradorModule, BairroModule, AuthModule, AdmModule],
 })
 export class EquipeModule {}

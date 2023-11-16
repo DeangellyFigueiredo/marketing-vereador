@@ -48,8 +48,12 @@ export class LiderController {
 
   @Roles("delete-lider")
   @Delete(":id")
-  async delete(@Param("id") id: string) {
-    return await this.liderService.delete(id);
+  async delete(
+    @Param("id") id: string,
+    @Headers("authorization") token: string,
+    @Headers("password") password: string
+  ) {
+    return await this.liderService.delete(id, token, password);
   }
 
   @Roles("activate-lider")

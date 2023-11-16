@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Headers,
   Query,
 } from "@nestjs/common";
 import { Roles } from "src/decorators/roles.decorator";
@@ -38,8 +39,12 @@ export class EquipeController {
 
   @Roles("delete-equipe")
   @Delete("/:id")
-  async delete(@Param("id") id: string) {
-    return await this.equipeService.delete(id);
+  async delete(
+    @Param("id") id: string,
+    @Headers("authorization") token: string,
+    @Headers("password") password: string
+  ) {
+    return await this.equipeService.delete(id, token, password);
   }
 
   @Roles("update-equipe")

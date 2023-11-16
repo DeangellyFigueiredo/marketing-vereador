@@ -7,6 +7,8 @@ import { ColaboradorService } from "./colaborador.service";
 import { AdmService } from "./adm.service";
 import { CreateColaboradorDTO } from "src/dtos/colaborador/createColaborador.dto";
 import { Roles } from "src/decorators/roles.decorator";
+import * as bcrypt from "bcrypt";
+import { AuthService } from "./auth.service";
 
 @Injectable()
 export class LiderService {
@@ -16,7 +18,9 @@ export class LiderService {
     @Inject(forwardRef(() => ColaboradorService))
     private readonly colaboradorService: ColaboradorService,
     @Inject(forwardRef(() => AdmService))
-    private readonly admService: AdmService
+    private readonly admService: AdmService,
+    @Inject(forwardRef(() => AuthService))
+    private readonly authService: AuthService
   ) {}
 
   async create(payload: CreateLiderDTO) {
@@ -61,7 +65,17 @@ export class LiderService {
     return await this.liderRepository.findAll();
   }
 
-  async delete(id: string) {
+  async delete(id: string, token: string, password: string) {
+    const tokenExtracted = await this.authService.decodeJWT(token);
+    const adm = await this.admService.findOneId(tokenExtracted.sub.id);
+    if (!adm) {
+      throw new HttpException("Administrador não encontrado!", 404);
+    }
+
+    const isValidPassword = bcrypt.compareSync(password, adm.password);
+
+    if (!isValidPassword) throw new HttpException("Senha inválida!", 400);
+
     const Lider = await this.liderRepository.findOneId(id);
     if (!Lider) {
       throw new HttpException("Líder não encontrado!", 404);

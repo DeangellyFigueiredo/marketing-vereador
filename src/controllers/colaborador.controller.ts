@@ -59,8 +59,12 @@ export class ColaboradorController {
 
   @Roles("delete-colaborador")
   @Delete(":id")
-  async delete(@Param("id") id: string) {
-    return await this.colaboradorService.delete(id);
+  async delete(
+    @Param("id") id: string,
+    @Headers("authorization") token: string,
+    @Headers("password") password: string
+  ) {
+    return await this.colaboradorService.delete(id, token, password);
   }
 
   @Roles("update-colaborador")

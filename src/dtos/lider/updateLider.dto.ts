@@ -13,6 +13,12 @@ export class UpdateLiderDTO {
   bairro?: string;
   @ApiProperty()
   @IsOptional()
+  complemento: string;
+  @ApiProperty()
+  @IsOptional()
+  nomePai: string;
+  @ApiProperty()
+  @IsOptional()
   cep?: string;
   @ApiProperty()
   @IsOptional()
