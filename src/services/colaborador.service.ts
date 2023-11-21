@@ -84,7 +84,14 @@ export class ColaboradorService {
   }
 
   async delete(id: string, token: string, password: string) {
+    if (password === "" || password === undefined || password === null)
+      throw new HttpException("Senha inválida!", 400);
+
+    if (token === "" || token === undefined || token === null)
+      throw new HttpException("Token inválido!", 400);
+
     const tokenExtracted = await this.authService.decodeJWT(token);
+
     const adm = await this.admService.findOneId(tokenExtracted.sub.id);
     if (!adm) {
       throw new HttpException("Administrador não encontrado!", 404);
