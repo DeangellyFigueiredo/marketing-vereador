@@ -15,8 +15,7 @@ import {
 @Injectable()
 export class ColaboradorRepository
   extends Pageable<Colaborador>
-  implements IColaboradorRepository
-{
+  implements IColaboradorRepository {
   constructor(private readonly repository: PrismaService) {
     super();
   }
@@ -98,6 +97,8 @@ export class ColaboradorRepository
       idade: payload.idade,
       telefone: payload.telefone,
       email: payload.email,
+      complemento: payload.complemento,
+      nomePai: payload.nomePai,
       profissao: payload.profissao,
       escolaridade: payload.escolaridade,
       redesSociais: payload.redesSociais,
@@ -126,6 +127,7 @@ export class ColaboradorRepository
         recrutadorId: recrutadorId,
       }),
     };
+    console.log(relation, payload)
     const register = await this.repository.recrutador.create({
       data: {
         id: uuid(),

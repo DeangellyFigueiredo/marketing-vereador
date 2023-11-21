@@ -35,7 +35,7 @@ export class ColaboradorService {
     private readonly authService: AuthService,
     @Inject(forwardRef(() => AdmService))
     private readonly admService: AdmService
-  ) {}
+  ) { }
 
   async create(payload: CreateColaboradorDTO, token?: string) {
     if (token) {
@@ -54,6 +54,7 @@ export class ColaboradorService {
       if (tokenExtracted.sub.role === "Administrativo")
         payload.admId = tokenExtracted.sub.id;
     }
+
     try {
       await this.colaboradorRepository.create(
         new Colaborador({ ...payload }),
@@ -62,6 +63,7 @@ export class ColaboradorService {
         payload.recrutadorId
       );
     } catch (error) {
+      console.log(error)
       if (error.code === "P2002") {
         throw new HttpException(
           "E-mail, RG ou CPF já cadastrados para outro colaborador! ",
@@ -174,8 +176,16 @@ export class ColaboradorService {
     const colaborador = await this.colaboradorRepository.findByIdToLogin(
       tokenExtracted.sub.id
     );
-    if (!colaborador)
-      throw new HttpException("Colaborador não encontrado!", 404);
+
+    const adm = await this.admService.findOneId(
+      tokenExtracted.sub.id
+    )
+    if (!colaborador && !adm)
+      throw new HttpException("Usuário não encontrado!", 404);
+
+    if (adm)
+      return await this.admService.firstLogin(payload, token)
+
 
     if (!colaborador.firstLogin)
       throw new HttpException("Colaborador já realizou o primeiro login!", 400);

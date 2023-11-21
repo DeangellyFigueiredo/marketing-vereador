@@ -9,8 +9,7 @@ import { v4 as uuid } from "uuid";
 @Injectable()
 export class LiderRepository
   extends Pageable<Lider>
-  implements ILiderRepository
-{
+  implements ILiderRepository {
   constructor(private readonly repository: PrismaService) {
     super();
   }
@@ -59,6 +58,8 @@ export class LiderRepository
       rua: payload.rua,
       bairro: payload.bairro,
       cep: payload.cep,
+      nomePai: payload.nomePai,
+      complemento: payload.complemento,
       numeroCasa: payload.numeroCasa,
       latitude: payload.latitude ?? "",
       longitude: payload.longitude ?? "",

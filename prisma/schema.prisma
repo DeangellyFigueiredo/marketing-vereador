@@ -1,5 +1,5 @@
 datasource db {
-  provider = "postgresql"
+  provider = "sqlserver"
   url      = env("DATABASE_URL")
 }
 
@@ -55,8 +55,8 @@ model Colaborador {
   role            Role?       @relation(fields: [roleId], references: [id])
   Recrutador      Recrutador? @relation(fields: [recrutadorId], references: [id])
   recrutadorId    String?
-  liderEquipe     Equipe?     @relation(name: "TeamLeader", fields: [liderId], references: [id])
-  membroEquipe    Equipe?     @relation(name: "TeamMember", fields: [equipeId], references: [id])
+  liderEquipe     Equipe?     @relation(name: "TeamLeader", fields: [liderId], references: [id], onDelete:NoAction, onUpdate: NoAction)
+  membroEquipe    Equipe?     @relation(name: "TeamMember", fields: [equipeId], references: [id], onDelete:NoAction)
   liderId         String?     @unique
   equipeId        String?
 }
