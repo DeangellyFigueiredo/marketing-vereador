@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Query,
+  Headers,
 } from "@nestjs/common";
 import { query } from "express";
 import { Roles } from "src/decorators/roles.decorator";
@@ -15,7 +16,7 @@ import { BairroService } from "src/services/bairro.service";
 
 @Controller("api/bairro")
 export class BairroController {
-  constructor(private readonly bairroService: BairroService) { }
+  constructor(private readonly bairroService: BairroService) {}
 
   @Roles("create-bairro")
   @Post()
@@ -37,7 +38,11 @@ export class BairroController {
 
   @Roles("delete-bairro")
   @Delete("/:id")
-  async delete(@Param("id") id: string) {
-    return await this.bairroService.delete(id);
+  async delete(
+    @Param("id") id: string,
+    @Headers("authorization") token: string,
+    @Headers("password") password: string
+  ) {
+    return await this.bairroService.delete(id, token, password);
   }
 }
