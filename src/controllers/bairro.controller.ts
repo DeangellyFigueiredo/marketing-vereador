@@ -43,6 +43,6 @@ export class BairroController {
     @Headers("authorization") token: string,
     @Headers("password") password: string
   ) {
-    return await this.bairroService.delete(id, token, password);
+    return await this.bairroService.delete(id, password, token);
   }
 }
