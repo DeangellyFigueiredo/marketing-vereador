@@ -1,5 +1,5 @@
 datasource db {
-  provider = "sqlserver"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -23,29 +23,29 @@ model Colaborador {
   id              String      @id @default(cuid())
   nome            String
   idade           Int
-  rua             String
-  numeroCasa      String
-  bairro          String
+  rua             String      @default("")
+  numeroCasa      String      @default("")
+  bairro          String      @default("")
   complemento     String      @default("")
   nomeMae         String      @default("")
   nomePai         String      @default("")
   telefone        String
   email           String      @unique
-  profissao       String
-  escolaridade    String
+  profissao       String      @default("")
+  escolaridade    String      @default("")
   redesSociais    String
-  cep             String
+  cep             String      @default("")
   latitude        String?     @default("")
   longitude       String?     @default("")
   dataNascimento  DateTime
   rg              String      @unique
-  orgaoExpedidor  String
+  orgaoExpedidor  String      @default("")
   cpf             String      @unique
-  tituloEleitor   String
-  zona            String
-  secao           String
-  recebeBeneficio Boolean
-  faixaSalarial   Int
+  tituloEleitor   String      @default("")
+  zona            String      @default("")
+  secao           String      @default("")
+  recebeBeneficio Boolean     @default(false)
+  faixaSalarial   Int         @default(0)
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
   deletedAt       DateTime?
@@ -55,8 +55,8 @@ model Colaborador {
   role            Role?       @relation(fields: [roleId], references: [id])
   Recrutador      Recrutador? @relation(fields: [recrutadorId], references: [id])
   recrutadorId    String?
-  liderEquipe     Equipe?     @relation(name: "TeamLeader", fields: [liderId], references: [id], onDelete:NoAction, onUpdate: NoAction)
-  membroEquipe    Equipe?     @relation(name: "TeamMember", fields: [equipeId], references: [id], onDelete:NoAction)
+  liderEquipe     Equipe?     @relation(name: "TeamLeader", fields: [liderId], references: [id])
+  membroEquipe    Equipe?     @relation(name: "TeamMember", fields: [equipeId], references: [id])
   liderId         String?     @unique
   equipeId        String?
 }
