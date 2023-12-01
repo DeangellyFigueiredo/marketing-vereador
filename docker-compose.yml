@@ -1,6 +1,25 @@
 version: "3"
 
 services:
+  registration-backend:
+    image: registration-backend:latest
+    build:
+      dockerfile: Dockerfile
+      context: .
+      args:
+        NODE_ENV: production
+        PORT: ${PORT_DOCKER}
+    container_name: registration-backend
+    network_mode: bridge
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+    restart: always
+    ports:
+      - ${PORT_DOCKER}:${PORT_DOCKER}
+    env_file:
+      - .env
+
   postgres:
     image: postgres
     restart: always
