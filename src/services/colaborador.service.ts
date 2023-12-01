@@ -35,7 +35,7 @@ export class ColaboradorService {
     private readonly authService: AuthService,
     @Inject(forwardRef(() => AdmService))
     private readonly admService: AdmService
-  ) { }
+  ) {}
 
   async create(payload: CreateColaboradorDTO, token?: string) {
     if (token) {
@@ -63,7 +63,7 @@ export class ColaboradorService {
         payload.recrutadorId
       );
     } catch (error) {
-      console.log(error)
+      console.log(error);
       if (error.code === "P2002") {
         throw new HttpException(
           "E-mail, RG ou CPF já cadastrados para outro colaborador! ",
@@ -177,15 +177,11 @@ export class ColaboradorService {
       tokenExtracted.sub.id
     );
 
-    const adm = await this.admService.findOneId(
-      tokenExtracted.sub.id
-    )
+    const adm = await this.admService.findOneId(tokenExtracted.sub.id);
     if (!colaborador && !adm)
       throw new HttpException("Usuário não encontrado!", 404);
 
-    if (adm)
-      return await this.admService.firstLogin(payload, token)
-
+    if (adm) return await this.admService.firstLogin(payload, token);
 
     if (!colaborador.firstLogin)
       throw new HttpException("Colaborador já realizou o primeiro login!", 400);
@@ -214,6 +210,37 @@ export class ColaboradorService {
       );
     }
     return await this.colaboradorRepository.findAllRecrutados(id, filter);
+  }
+
+  async updatePassword(id: string, token: string) {
+    let adm;
+    if (process.env.NODE_ENV === "production") {
+      const tokenExtracted = await this.authService.decodeJWT(token);
+      adm = await this.admService.findOneId(tokenExtracted.sub.id);
+      if (!adm) {
+        throw new HttpException("Administrador não encontrado!", 404);
+      }
+    }
+    const colaborador = await this.colaboradorRepository.findOneId(id);
+    if (!colaborador) {
+      throw new HttpException("Colaborador não encontrado!", 404);
+    }
+
+    const password = bcrypt.hashSync(
+      colaborador.nome.substring(0, 3) + colaborador.cpf.substring(0, 3),
+      10
+    );
+    await this.colaboradorRepository.update(
+      {
+        password,
+        firstLogin: true,
+      },
+      id
+    );
+
+    return {
+      message: "Senha atualizada com sucesso!",
+    };
   }
 
   async exportsColaboradorFile(filter: FilterColaboradorDTO) {

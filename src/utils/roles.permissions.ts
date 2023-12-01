@@ -11,6 +11,7 @@ export const setPermissions = (roles: ERoles) => {
       "delete-colaborador",
       "update-colaborador",
       "export-colaborador",
+      "update-password",
       "create-adm",
       "list-adm",
       "delete-adm",

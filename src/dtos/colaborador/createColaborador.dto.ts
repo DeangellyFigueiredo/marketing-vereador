@@ -36,6 +36,7 @@ export class CreateColaboradorDTO {
   @ApiProperty()
   @IsString()
   @IsDefined()
+  @IsOptional()
   nomePai: string;
   @ApiProperty()
   @IsNumber()

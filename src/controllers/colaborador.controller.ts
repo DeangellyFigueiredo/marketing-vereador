@@ -133,4 +133,13 @@ export class ColaboradorController {
       filters
     );
   }
+
+  @Put("/update/password/:id")
+  @Roles("update-password")
+  async updatePassword(
+    @Param("id") id: string,
+    @Headers("authorization") token: string
+  ) {
+    return await this.colaboradorService.updatePassword(id, token);
+  }
 }
