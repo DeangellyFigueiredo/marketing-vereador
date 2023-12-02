@@ -9,7 +9,8 @@ import { v4 as uuid } from "uuid";
 @Injectable()
 export class LiderRepository
   extends Pageable<Lider>
-  implements ILiderRepository {
+  implements ILiderRepository
+{
   constructor(private readonly repository: PrismaService) {
     super();
   }
@@ -100,25 +101,10 @@ export class LiderRepository
     });
     return register.colaborador;
   }
-  async findAll(): Promise<Partial<Lider>[]> {
-    return await this.repository.colaborador.findMany({
-      where: {
-        role: {
-          name: "Lider",
-        },
-        deletedAt: null,
-      },
-      select: {
-        id: true,
-        nome: true,
-        cpf: true,
-        telefone: true,
-        bairro: true,
-      },
-      orderBy: {
-        nome: "desc",
-      },
-    });
+  async findAll(): Promise<any> {
+    const result = await this.repository
+      .$queryRaw`select C.id,nome,cpf,telefone,bairro,coalesce(count(rc."liderId")::int, 0) as RecCount from "Colaborador" as c inner join "Role" as R on c."roleId"  = r.id and r."name" = 'Lider' left join "Recrutador" as rc on rc."liderId" = c.id group by C.id`;
+    return result;
   }
 
   async delete(id: string): Promise<any> {
